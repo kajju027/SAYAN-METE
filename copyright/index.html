@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Copyright Disclaimer by CNP</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Fonts for multilingual support -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;700&family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Noto Sans', 'Noto Sans Bengali', Arial, sans-serif;
+            background: #1a2237;
+            min-height: 100vh;
+        }
+        #particles-js {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+        }
+        .container {
+            max-width: 650px;
+            margin: 70px auto 30px auto;
+            background: rgba(255,255,255,0.93);
+            padding: 40px 28px 30px 28px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.16);
+            z-index: 2;
+            position: relative;
+        }
+        h1 {
+            color: #243c89;
+            text-align: center;
+            margin-bottom: 28px;
+            font-size: 2.2rem;
+            letter-spacing: 1px;
+        }
+        p {
+            color: #222;
+            font-size: 1.15rem;
+            line-height: 1.7;
+            margin: 16px 0;
+        }
+        .copyright {
+            text-align: center;
+            margin-top: 40px;
+            color: #888;
+            font-size: 1rem;
+        }
+        /* Language Switcher Card */
+        .lang-card {
+            position: absolute;
+            top: -55px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #fff;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.13);
+            border-radius: 10px;
+            padding: 10px 24px;
+            display: flex;
+            align-items: center;
+            z-index: 2;
+            min-width: 170px;
+        }
+        .lang-label {
+            font-size: 1rem;
+            color: #333;
+            margin-right: 16px;
+            font-weight: 600;
+        }
+        .lang-select {
+            font-size: 1rem;
+            padding: 4px 12px;
+            border-radius: 6px;
+            border: 1px solid #bbb;
+            background: #f5f5f5;
+            font-family: inherit;
+        }
+        @media (max-width: 700px) {
+            .container {
+                margin: 80px 6px 30px 6px;
+                padding: 28px 7px 18px 7px;
+            }
+            .lang-card {
+                top: -48px;
+                padding: 8px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Particle Background -->
+    <div id="particles-js"></div>
+
+    <div class="container">
+        <!-- Language Switcher Card -->
+        <div class="lang-card">
+            <span class="lang-label">Language:</span>
+            <select class="lang-select" id="langSelect">
+                <option value="en" selected>English</option>
+                <option value="bn">বাংলা</option>
+                <option value="hi">हिन्दी</option>
+                <option value="ta">தமிழ்</option>
+                <option value="mr">मराठी</option>
+                <option value="gu">ગુજરાતી</option>
+            </select>
+        </div>
+        <h1 id="title">Copyright Disclaimer</h1>
+        <p id="p1">
+            All content on this website, including text, images, videos, audio, and designs, is protected by copyright law and all rights are reserved. Any third-party materials used are the property of their respective owners.
+        </p>
+        <p id="p2">
+            If any text, image, video, or other content belongs to you and you wish for it to be removed or credited, please contact us. We will take appropriate action.
+        </p>
+        <p id="p3">
+            Copying, storing, distributing, or republishing any content from this website without prior permission is a punishable offense by law. Please seek permission before using our content.
+        </p>
+        <div class="copyright" id="copyright">
+            &copy; 2025 SAYAN | All rights reserved.
+        </div>
+    </div>
+
+    <!-- particles.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script>
+        // More lively, beautiful particle config!
+        particlesJS("particles-js", {
+            "particles": {
+                "number": {
+                    "value": 80,
+                    "density": {
+                        "enable": true,
+                        "value_area": 900
+                    }
+                },
+                "color": {
+                    "value": ["#1e90ff","#00e676","#ffb300","#ff4081","#ff5252","#00bcd4"]
+                },
+                "shape": {
+                    "type": ["circle", "triangle", "edge"],
+                    "stroke": {
+                        "width": 0,
+                        "color": "#fff"
+                    }
+                },
+                "opacity": {
+                    "value": 0.8,
+                    "random": true
+                },
+                "size": {
+                    "value": 6,
+                    "random": true
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 140,
+                    "color": "#b2cdf7",
+                    "opacity": 0.23,
+                    "width": 2
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 2.6,
+                    "direction": "none",
+                    "random": true,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": {
+                        "enable": false,
+                        "rotateX": 600,
+                        "rotateY": 1200
+                    }
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": ["bubble", "repulse"]
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    }
+                },
+                "modes": {
+                    "grab": {
+                        "distance": 140,
+                        "line_linked": {
+                            "opacity": 0.8
+                        }
+                    },
+                    "bubble": {
+                        "distance": 120,
+                        "size": 14,
+                        "duration": 2,
+                        "opacity": 0.9,
+                        "speed": 3
+                    },
+                    "repulse": {
+                        "distance": 80,
+                        "duration": 0.6
+                    },
+                    "push": {
+                        "particles_nb": 4
+                    }
+                }
+            },
+            "retina_detect": true
+        });
+    </script>
+    <script>
+    // Translation data (same as before)
+    const translations = {
+        bn: {
+            title: "কপিরাইট ডিসক্লেমার",
+            p1: "এই ওয়েবসাইটের সকল বিষয়বস্তু, যেমন: লেখা, ছবি, ভিডিও, অডিও, নকশা ইত্যাদি কপিরাইট আইনের আওতাভুক্ত এবং স্বত্বাধিকার সংরক্ষিত। এখানে ব্যবহৃত যেকোনো তৃতীয় পক্ষের মালিকানাধীন উপাদান তাদের নিজস্ব কপিরাইটের অধীনে।",
+            p2: "কোনো লেখ, ছবি, ভিডিও বা অন্যান্য কনটেন্টের মালিকানা আপনার হলে এবং আপনি চান আমরা তা সরিয়ে ফেলি বা স্বীকৃতি দেই, দয়া করে আমাদের সাথে যোগাযোগ করুন। আমরা যথাযথ পদক্ষেপ গ্রহণ করব।",
+            p3: "এই ওয়েবসাইটের কোনো কনটেন্ট অনুমতি ছাড়া কপি, সংরক্ষণ, বণ্টন বা পুনঃপ্রকাশ করা আইনত দণ্ডনীয় অপরাধ। আমাদের কনটেন্ট ব্যবহারের জন্য অনুগ্রহ করে পূর্বানুমতি নিন।",
+            copyright: "&copy; 2025 SAYAN  | All rights reserved"
+        },
+        en: {
+            title: "Copyright Disclaimer",
+            p1: "All content on this website, including text, images, videos, audio, and designs, is protected by copyright law and all rights are reserved. Any third-party materials used are the property of their respective owners.",
+            p2: "If any text, image, video, or other content belongs to you and you wish for it to be removed or credited, please contact us. We will take appropriate action.",
+            p3: "Copying, storing, distributing, or republishing any content from this website without prior permission is a punishable offense by law. Please seek permission before using our content.",
+            copyright: "&copy; 2025 SAYAN  | All rights reserved."
+        },
+        hi: {
+            title: "कॉपीराइट अस्वीकरण",
+            p1: "इस वेबसाइट की सभी सामग्री, जैसे कि पाठ, छवियाँ, वीडियो, ऑडियो, डिज़ाइन आदि कॉपीराइट कानून के अंतर्गत सुरक्षित हैं और सभी अधिकार सुरक्षित हैं। यहाँ प्रयुक्त कोई भी तृतीय पक्ष की सामग्री उनके संबंधित स्वामियों की है।",
+            p2: "यदि कोई लेख, छवि, वीडियो या अन्य सामग्री आपकी है और आप चाहते हैं कि हम उसे हटा दें या श्रेय दें, तो कृपया हमसे संपर्क करें। हम उचित कार्रवाई करेंगे।",
+            p3: "इस वेबसाइट की किसी भी सामग्री को बिना अनुमति कॉपी करना, सहेजना, वितरित करना या पुनः प्रकाशित करना कानूनन दंडनीय अपराध है। कृपया हमारी सामग्री का उपयोग करने से पहले अनुमति लें।",
+            copyright: "&copy; 2025 SAYAN  | All rights reserved "
+        },
+        ta: {
+            title: "பதிப்புரிமை அறிவிப்பு",
+            p1: "இந்த வலைத்தளத்தில் உள்ள அனைத்து உள்ளடக்கங்களும், எழுத்து, படங்கள், வீடியோக்கள், ஒலி, வடிவமைப்பு மற்றும் பிறவை, பதிப்புரிமை சட்டத்தின் கீழ் பாதுகாக்கப்பட்டவை மற்றும் அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை. இங்கு பயன்படுத்தப்படும் எந்த மூன்றாம் தரப்பு உடைமைகளும் அவை உரிமையாளர்களுக்குச் சொந்தமானவை.",
+            p2: "எந்தவொரு எழுத்து, படம், வீடியோ அல்லது பிற உள்ளடக்கம் உங்களுடையதாக இருந்தால், அதை நீக்கவும் அல்லது நாங்கள் அங்கீகரிக்கவும் விரும்பினால், தயவுசெய்து எங்களை தொடர்புகொள்ளவும். நாங்கள் உரிய நடவடிக்கை எடுப்போம்.",
+            p3: "இந்த வலைத்தளத்தில் உள்ள எந்தவொரு உள்ளடக்கத்தையும் அனுமதி இல்லாமல் நகலெடுத்தல், சேமித்தல், பகிர்வு அல்லது மறுபதிப்பு செய்தல் சட்டப்படி குற்றமாகும். தயவுசெய்து எங்களுடைய உள்ளடக்கத்தைப் பயன்படுத்த முன்பாக அனுமதி பெறவும்.",
+            copyright: "&copy; 2025 SAYAN  | All rights reserved"
+        },
+        mr: {
+            title: "कॉपीराइट अस्वीकरण",
+            p1: "या वेबसाईटवरील सर्व सामग्री जसे की लेख, चित्रे, व्हिडिओ, ऑडिओ, डिझाईन इ. कॉपीराइट कायद्यांतर्गत संरक्षित आहेत आणि सर्व हक्क राखीव आहेत. येथे वापरलेली तृतीय पक्ष सामग्री त्यांच्या मालकांच्या मालकीची आहे.",
+            p2: "कोणत्याही लेख, चित्र, व्हिडिओ किंवा इतर सामग्रीचे मालक आपण असाल आणि आम्ही ती काढून टाकावी किंवा श्रेय द्यावे असे वाटत असल्यास, कृपया आमच्याशी संपर्क करा. आम्ही योग्य ती कारवाई करू.",
+            p3: "या वेबसाईटवरील कोणतीही सामग्री परवानगीशिवाय कॉपी, साठवणे, वितरण किंवा पुन्हा प्रकाशित करणे कायद्याने दंडनीय आहे. कृपया आमच्या सामग्रीचा वापर करण्यापूर्वी परवानगी घ्या.",
+            copyright: "&copy; 2025 SAYAN  | All rights reserved"
+        },
+        gu: {
+            title: "કૉપિરાઇટ ડિસ્ક્લેમર",
+            p1: "આ વેબસાઇટની તમામ સામગ્રી જેમ કે લખાણ, છબીઓ, વીડિયો, ઑડિયો, ડિઝાઇન વગેરે કૉપિરાઇટ કાયદા હેઠળ સુરક્ષિત છે અને તમામ હક્કો અનામત છે. અહીં ઉપયોગમાં લેવામાં આવેલી તૃતીય પક્ષની સામગ્રી તેમના સંબંધિત માલિકોની છે.",
+            p2: "કોઈ પણ લેખ, છબી, વીડિયો અથવા અન્ય સામગ્રી તમારી હોય અને તમે ઇચ્છો કે અમે તેને દૂર કરીએ અથવા શ્રેય આપીએ, તો કૃપા કરીને અમારો સંપર્ક કરો. અમે યોગ્ય પગલાં લઈશું.",
+            p3: "આ વેબસાઇટની કોઈપણ સામગ્રી પરવાનગી વિના નકલ કરવી, સંગ્રહ કરવી, વિતરણ કરવું કે પુનઃપ્રકાશિત કરવું કાયદેસર દંડનીય છે. કૃપા કરીને અમારી સામગ્રીનો ઉપયોગ કરતા પહેલાં પરવાનગી લો.",
+            copyright: "&copy; 2025 SAYAN  | All rights reserved"
+        }
+    };
+
+    // Set default language to English
+    document.addEventListener("DOMContentLoaded", function() {
+        document.documentElement.lang = "en";
+        document.getElementById('langSelect').value = "en";
+    });
+
+    // Language Switcher
+    document.getElementById('langSelect').addEventListener('change', function() {
+        const lang = this.value;
+        const t = translations[lang];
+        if(t) {
+            document.getElementById('title').innerHTML = t.title;
+            document.getElementById('p1').innerHTML = t.p1;
+            document.getElementById('p2').innerHTML = t.p2;
+            document.getElementById('p3').innerHTML = t.p3;
+            document.getElementById('copyright').innerHTML = t.copyright;
+            document.documentElement.lang = lang;
+        }
+    });
+    </script>
+</body>
+</html>
