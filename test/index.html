@@ -1,129 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Asitha • YT Audio & Video Downloader</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <style>
-    body { opacity: 0; transition: opacity 0.6s ease-in-out; }
-    .animate-fade-in { animation: fadeIn 0.6s ease-in-out forwards; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px);} to { opacity: 1; transform: translateY(0);} }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YT MP3 Downloader</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
-<body class="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-950 min-h-screen flex items-center justify-center p-4">
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
 
-<div class="w-full max-w-2xl mx-auto">
-  <!-- Header -->
-  <div class="text-center mb-10 space-y-4">
-    <h1 class="text-4xl font-extrabold bg-gradient-to-r from-red-600 to-pink-500 bg-clip-text text-transparent">Asitha YT Downloader</h1>
-    <p class="text-gray-600 dark:text-gray-400">Download Audio & Video • Fast • Secure • High Quality</p>
-  </div>
-
-  <!-- Input Card -->
-  <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 mb-8">
-    <div class="relative mb-5 group">
-      <input type="text" id="youtubeUrl" placeholder="Paste YouTube URL here..." class="w-full pl-12 pr-4 py-4 rounded-xl bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500">
-    </div>
-    <button onclick="getVideoInfo()" class="w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white py-4 px-6 rounded-xl font-semibold shadow-md transition-all duration-300 flex items-center justify-center space-x-2">
-      <span>Get Video Info</span>
-    </button>
-  </div>
-
-  <!-- Video Info -->
-  <div id="videoInfo" class="hidden animate-fade-in">
-    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden">
-      <!-- Thumbnail -->
-      <div id="thumbnailContainer" class="relative"></div>
-
-      <!-- Details -->
-      <div class="p-6 space-y-5">
-        <h2 id="videoTitle" class="text-2xl font-bold text-gray-900 dark:text-gray-100 line-clamp-2"></h2>
-        <div class="flex flex-wrap gap-4 text-sm text-gray-500 dark:text-gray-400">
-          <div id="channelName" class="flex items-center gap-2"><span></span></div>
-          <div id="duration" class="flex items-center gap-2"><span></span></div>
-        </div>
-
-        <!-- Download Buttons -->
-        <div class="grid gap-3 sm:grid-cols-2">
-          <button onclick="downloadAudio()" class="bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl flex items-center justify-center gap-2 font-medium shadow-md">MP3 (128kbps)</button>
-          <button onclick="downloadVideo('360')" class="bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl flex items-center justify-center gap-2 font-medium shadow-md">MP4 (360p)</button>
-          <button onclick="downloadVideo('480')" class="bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl flex items-center justify-center gap-2 font-medium shadow-md">MP4 (480p)</button>
-          <button onclick="downloadVideo('720')" class="bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl flex items-center justify-center gap-2 font-medium shadow-md">MP4 (720p)</button>
-          <button onclick="downloadVideo('1080')" class="bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl flex items-center justify-center gap-2 font-medium shadow-md sm:col-span-2">MP4 (1080p)</button>
-        </div>
-      </div>
-    </div>
-  </div>
+<div class="w-full max-w-md bg-white rounded-xl shadow-lg p-6">
+  <h1 class="text-2xl font-bold mb-4 text-center">YT MP3 Downloader</h1>
+  
+  <input type="text" id="youtubeUrl" placeholder="Paste YouTube URL here..."
+         class="w-full border border-gray-300 rounded-lg p-3 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+  
+  <button onclick="downloadMP3()" 
+          class="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-lg font-semibold">Download MP3</button>
 </div>
 
 <script>
-// SweetAlert Toasts
-const Toast = Swal.mixin({
-  toast:true, position:'top-end', showConfirmButton:false, timer:3000, timerProgressBar:true,
-  didOpen:(toast)=>{toast.addEventListener('mouseenter',Swal.stopTimer); toast.addEventListener('mouseleave',Swal.resumeTimer);}
-});
-function showLoading(msg){return Swal.fire({html:`<div class="space-y-3"><div class="w-16 h-16 mx-auto border-4 border-gray-200 border-t-blue-500 rounded-full animate-spin"></div><div class="text-gray-600 text-sm">${msg}</div></div>`,showConfirmButton:false,allowOutsideClick:false,background:'#fff',customClass:{popup:'rounded-2xl'}});}
-function showSuccess(msg){Toast.fire({icon:'success',title:msg,background:'#F0FDF4',iconColor:'#22C55E'});}
-function showError(msg){Toast.fire({icon:'error',title:msg,background:'#FEF2F2',iconColor:'#EF4444'});}
-
-// Video Info
-function getVideoInfo(){
-  const url = $('#youtubeUrl').val().trim();
-  if(!url) return showError('Please enter a YouTube URL');
-  showLoading('Fetching video info...');
-  $('#videoInfo').addClass('hidden');
-
-  $.ajax({
-    url:'/api/info',
-    type:'GET',
-    data:{url},
-    success:(res)=>{
-      $('#thumbnailContainer').html(`<img src="${res.thumbnail}" class="w-full object-cover">`);
-      $('#videoTitle').text(res.title);
-      $('#channelName span').text(res.author);
-      $('#duration span').text(res.duration);
-      $('#videoInfo').removeClass('hidden'); 
-      Swal.close(); showSuccess('Video info loaded');
-    },
-    error:(xhr)=>{Swal.close(); showError(xhr.responseJSON?.error||'Failed to fetch info');}
-  });
+function downloadMP3() {
+    const url = $('#youtubeUrl').val().trim();
+    if(!url) {
+        Swal.fire({icon:'error', title:'Enter YouTube URL'});
+        return;
+    }
+    Swal.fire({title:'Preparing download...', didOpen: () => Swal.showLoading(), allowOutsideClick:false});
+    
+    const apiUrl = `http://vpn.asitha.top:3000/api/ytmp3?url=${encodeURIComponent(url)}`;
+    
+    // Direct download by creating a hidden link
+    const a = document.createElement('a');
+    a.href = apiUrl;
+    a.download = '';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    
+    Swal.close();
+    Swal.fire({icon:'success', title:'Download started!'});
 }
-
-// Download
-function downloadFile(format,quality){
-  const url = $('#youtubeUrl').val().trim();
-  if(!url) return showError('Please enter a YouTube URL');
-  showLoading(`Preparing ${format.toUpperCase()} (${quality})...`);
-
-  $.ajax({
-    url:'/api/download',
-    type:'GET',
-    data:{videoUrl:url, format_type:format, quality},
-    xhrFields:{responseType:'blob'},
-    success:(res)=>{
-      const cleanTitle=$('#videoTitle').text().replace(/[<>:"/\\|?*]/g,'').substring(0,80);
-      const type=format==='mp3'?'audio/mpeg':'video/mp4';
-      const blob=new Blob([res],{type});
-      const dlUrl=URL.createObjectURL(blob);
-      const a=document.createElement('a'); a.href=dlUrl; a.download=`${cleanTitle}-${quality}.${format}`;
-      document.body.appendChild(a); a.click();
-      setTimeout(()=>{URL.revokeObjectURL(dlUrl); document.body.removeChild(a); Swal.close(); showSuccess(`${format.toUpperCase()} ${quality} downloaded`);},100);
-    },
-    error:(xhr)=>{Swal.close(); showError(xhr.responseJSON?.error||'Download failed');}
-  });
-}
-
-function downloadAudio(){downloadFile('mp3','128');}
-function downloadVideo(q){downloadFile('mp4',q);}
-
-// Page Fade-in
-document.addEventListener('DOMContentLoaded',()=>{document.body.style.opacity='1';});
-if(window.matchMedia('(prefers-color-scheme: dark)').matches){document.documentElement.classList.add('dark');}
 </script>
 
 </body>
-</html>                                                                                                                                                              </html>
-            
+</html>
