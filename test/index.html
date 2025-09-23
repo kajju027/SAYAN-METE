@@ -1,466 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>CRICKET NEWS POINT - 21</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-    :root {
-        --main-bg: #101e34;
-        --card-bg: #182742ea;
-        --glass-bg: rgba(22,41,74,0.84);
-        --accent: #25D366;
-        --accent2: #1b6ef3;
-        --main-text: #eaf6ff;
-        --deep-green: #059669;
-        --deep-red: #c0392b;
-        --shadow: 0 4px 32px #1b6ef355;
-        --modal-glow: 0 0 24px 8px #25d36644, 0 1px 40px #1b6ef366;
-    }
-    html,body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-    }
-    body {
-        min-height: 100vh;
-        background: linear-gradient(135deg, #101e34 0%, #1b2a44 80%, #1b6ef3 120%);
-        color: var(--main-text);
-        font-family: 'Segoe UI', Arial, sans-serif;
-        letter-spacing: 0.01em;
-    }
-    /* Modal */
-    .modal {
-        position: fixed;
-        inset: 0;
-        background: radial-gradient(circle at 60% 40%, #1b6ef355 0%, #101e34ee 100%);
-        z-index: 9999;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        animation: fadeIn 0.5s;
-        backdrop-filter: blur(9px) brightness(1.07);
-    }
-    @keyframes fadeIn {
-        from {opacity:0;}
-        to{opacity:1;}
-    }
-    .modal-box {
-        background: linear-gradient(130deg, #22345c 75%, #1b2a44fa 100%);
-        border-radius: 25px;
-        box-shadow: var(--modal-glow);
-        padding: 42px 26px 34px 26px;
-        text-align: center;
-        min-width: 270px;
-        max-width: 390px;
-        animation: popIn 0.45s cubic-bezier(.61,-0.03,.55,1.18);
-        position: relative;
-        overflow: hidden;
-        border: 1.5px solid #25d36655;
-        backdrop-filter: blur(4.5px) brightness(1.09);
-        transition: box-shadow 0.22s;
-    }
-    @keyframes popIn {
-        0% {transform: scale(0.7); opacity:0;}
-        80% {transform: scale(1.08);}
-        100% {transform: scale(1); opacity:1;}
-    }
-    .modal-box::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(120deg, #25d36622 0%, #1b6ef366 100%);
-        pointer-events: none;
-        border-radius: 22px;
-    }
-    .modal h2 {
-        color: #fff;
-        letter-spacing: .055em;
-        font-size: 1.45em;
-        margin-bottom: 13px;
-        margin-top: 0;
-        font-weight: 700;
-        text-shadow: 0 2px 10px #1b6ef344;
-        line-height: 1.27em;
-    }
-    .modal-buttons {
-        display: flex;
-        gap: 15px;
-        margin-top: 28px;
-        justify-content: center;
-        animation: fadeIn 0.8s;
-    }
-    .modal-btn {
-        flex:1;
-        padding: 15px 7px;
-        border-radius: 11px;
-        border: none;
-        font-size: 1.08em;
-        font-weight: bold;
-        cursor: pointer;
-        box-shadow: 0 2px 8px #1b6ef344;
-        outline: none;
-        transition: background 0.22s, color 0.18s, box-shadow 0.16s, transform 0.12s;
-        margin: 0;
-        letter-spacing: .01em;
-        color: #fff;
-    }
-    .modal-btn.join {
-        background: linear-gradient(90deg, #059669 80%, #25D366 100%);
-    }
-    .modal-btn.join:hover, .modal-btn.join:focus {
-        background: linear-gradient(90deg, #25D366 90%, #059669 100%);
-        box-shadow: 0 2px 18px #25D36633;
-        transform: scale(1.06);
-        color:#fff;
-    }
-    .modal-btn.already {
-        background: linear-gradient(90deg, #c0392b 80%, #ae2012 100%);
-    }
-    .modal-btn.already:hover, .modal-btn.already:focus {
-        background: linear-gradient(90deg, #ae2012 90%, #c0392b 100%);
-        box-shadow: 0 2px 18px #c0392b44;
-        transform: scale(1.06);
-        color: #fff;
-    }
-
-    /* Header */
-    .header {
-        display: flex;
-        align-items: center;
-        background: var(--blue2);
-        color: #fff;
-        padding: 15px 16px 12px 16px;
-        border-bottom-left-radius: 19px;
-        border-bottom-right-radius: 19px;
-        min-height: 54px;
-        box-shadow: 0 4px 18px #1b6ef344;
-        z-index: 10;
-        gap:8px;
-    }
-    .menu-icon {
-        width: 36px; height: 36px;
-        margin-right: 12px;
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-        flex-shrink: 0;
-        justify-content: center;
-    }
-    .menu-icon div {
-        width: 24px;
-        height: 4px;
-        background: #fff;
-        margin: 3px 0;
-        border-radius: 2px;
-        transition: 0.22s;
-    }
-    .header-title {
-        font-size: 1.32em;
-        font-weight: bold;
-        letter-spacing: 1.2px;
-        flex-grow: 1;
-        text-shadow: 0 3px 18px #1b6ef344;
-    }
-
-    /* Drawer */
-    .side-drawer {
-        position: fixed;
-        top: 0; left: 0;
-        width: 220px;
-        height: 100vh;
-        background: linear-gradient(140deg,#14213e 85%,#1b6ef344 100%);
-        box-shadow: 2px 0 24px #1b6ef344;
-        z-index: 2000;
-        padding: 38px 0 0 0;
-        display: none;
-        flex-direction: column;
-        animation: slideIn 0.28s;
-    }
-    @keyframes slideIn {
-        from {transform: translateX(-100%);}
-        to {transform: translateX(0);}
-    }
-    .drawer-btn {
-        background: none;
-        border: none;
-        text-align: left;
-        padding: 15px 38px;
-        font-size: 1.13em;
-        color: #b2c7f6;
-        cursor: pointer;
-        border-bottom: 1px solid #1b6ef344;
-        width: 100%;
-        transition: background 0.18s, color 0.18s;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-    }
-    .drawer-btn:last-child { border-bottom: none; }
-    .drawer-btn:hover, .drawer-btn:focus {
-        background: #1b6ef322;
-        color: #fff;
-    }
-    .visitor-img {
-        display: inline-block;
-        vertical-align: middle;
-        margin-top: 7px;
-        margin-bottom: 3px;
-        max-width: 90%;
-    }
-    /* Video Player Card */
-    .player-card {
-        margin: 26px auto 0 auto;
-        background: var(--card-bg);
-        border-radius: 18px;
-        box-shadow: var(--shadow);
-        padding: 20px 12px 23px 12px;
-        max-width: 480px;
-        width: 97vw;
-        animation: fadeIn 1.2s;
-    }
-    .player-title {
-        text-align: center;
-        color: #b2c7f6;
-        font-size: 1.11em;
-        margin-bottom: 10px;
-        letter-spacing: .04em;
-    }
-    .iframe-wrap {
-        width: 100%;
-        aspect-ratio: 16/9;
-        border-radius: 13px;
-        overflow: hidden;
-        background: #000;
-        box-shadow: 0 8px 30px #1b6ef322;
-        margin-right: auto;
-        margin-left: auto;
-    }
-    .player-iframe {
-        width: 100%;
-        height: 100%;
-        border: none;
-        background: #000;
-        display: block;
-    }
-    /* Quality Buttons */
-    .quality-buttons {
-        display: flex;
-        justify-content: space-between;
-        gap: 10px;
-        margin: 15px auto 0 auto;
-        max-width: 480px;
-    }
-    .quality-btn {
-        flex: 1;
-        padding: 11px 2px;
-        border-radius: 7px;
-        background: #182742;
-        color: #b2c7f6;
-        font-weight: 500;
-        border: none;
-        font-size: 1em;
-        margin: 0;
-        cursor: pointer;
-        transition: background 0.20s, color 0.13s;
-    }
-    .quality-btn.active,
-    .quality-btn:focus {
-        background: var(--accent);
-        color: #fff;
-    }
-    .quality-btn:active {
-        background: #18a75d;
-    }
-    /* 1080p Big Button */
-    .big-btn {
-        display: block;
-        width: 100%;
-        max-width: 480px;
-        margin: 22px auto 0 auto;
-        padding: 16px 0;
-        border-radius: 10px;
-        background: var(--accent2);
-        color: #fff;
-        font-weight: bold;
-        font-size: 1.13em;
-        border: none;
-        cursor: pointer;
-        transition: background 0.22s;
-        box-shadow: 0 4px 12px #1b6ef344;
-        letter-spacing: .03em;
-    }
-    .big-btn.active,
-    .big-btn:focus {
-        background: var(--accent);
-    }
-    /* Whatsapp Join Button */
-    .join-wa-btn {
-        width: 98vw;
-        max-width: 480px;
-        display: block;
-        margin: 29px auto 0 auto;
-        padding: 17px 0;
-        border-radius: 10px;
-        background: linear-gradient(90deg,#25D366 70%,#1db95f 100%);
-        color: #fff;
-        font-size: 1.16em;
-        font-weight: bold;
-        border: none;
-        cursor: pointer;
-        transition: background 0.18s;
-        letter-spacing: .03em;
-        box-shadow: 0 4px 12px #25D36622;
-    }
-    .join-wa-btn:active {
-        background: #1ea955;
-    }
-    @media (max-width: 600px) {
-        .player-card, .quality-buttons, .big-btn, .modal-box, .join-wa-btn {
-            max-width: 99vw !important;
-        }
-        .side-drawer {
-            width: 82vw;
-            min-width: 120px;
-        }
-        .modal-box {
-            padding: 19px 2vw 16px 2vw;
-        }
-    }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Asitha • YT Audio & Video Downloader</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    body { opacity: 0; transition: opacity 0.6s ease-in-out; }
+    .animate-fade-in { animation: fadeIn 0.6s ease-in-out forwards; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px);} to { opacity: 1; transform: translateY(0);} }
+  </style>
 </head>
-<body>
+<body class="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-950 min-h-screen flex items-center justify-center p-4">
 
-<!-- Modal Join WhatsApp Channel -->
-<div class="modal" id="modal">
-    <div class="modal-box">
-        <h2>Join WhatsApp Channel</h2>
-        <div class="modal-buttons">
-            <button class="modal-btn join" onclick="window.open('https://whatsapp.com/channel/0029VaeylYYBPzjVNomWuZ0T', '_blank'); hideModal();">Join Now</button>
-            <button class="modal-btn already" onclick="hideModal();">Already Join</button>
-        </div>
+<div class="w-full max-w-2xl mx-auto">
+  <!-- Header -->
+  <div class="text-center mb-10 space-y-4">
+    <h1 class="text-4xl font-extrabold bg-gradient-to-r from-red-600 to-pink-500 bg-clip-text text-transparent">Asitha YT Downloader</h1>
+    <p class="text-gray-600 dark:text-gray-400">Download Audio & Video • Fast • Secure • High Quality</p>
+  </div>
+
+  <!-- Input Card -->
+  <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 mb-8">
+    <div class="relative mb-5 group">
+      <input type="text" id="youtubeUrl" placeholder="Paste YouTube URL here..." class="w-full pl-12 pr-4 py-4 rounded-xl bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500">
     </div>
-</div>
-
-<!-- Side Drawer -->
-<div class="side-drawer" id="drawer">
-    <button class="drawer-btn" onclick="window.location.href='https://yourcopyrighturl.com';">Copyright</button>
-    <button class="drawer-btn" onclick="showVisitorCount();">
-        Visitor Count
+    <button onclick="getVideoInfo()" class="w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white py-4 px-6 rounded-xl font-semibold shadow-md transition-all duration-300 flex items-center justify-center space-x-2">
+      <span>Get Video Info</span>
     </button>
-    <button class="drawer-btn" onclick="window.location.href='mailto:contact@yourdomain.com';">Contact</button>
-</div>
+  </div>
 
-<!-- Visitor Counter Modal -->
-<div class="modal" id="visitorModal" style="display:none; background: rgba(30,30,30,0.88);">
-    <div class="modal-box" style="max-width:320px;text-align:center;">
-        <h2 style="font-size:1.09em; margin:0 0 18px 0;">Visitor Count</h2>
-        <img class="visitor-img" src="https://visit-counter.vercel.app/counter.png?page=cricnewspoints.pages.dev&s=45&c=ffff00&bg=00000000&no=1&ff=digi&tb=&ta=" alt="Visitor Count">
-        <div style="margin-top:22px;">
-            <button class="modal-btn join" style="background:var(--accent2);" onclick="hideVisitorCount();">Close</button>
+  <!-- Video Info -->
+  <div id="videoInfo" class="hidden animate-fade-in">
+    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden">
+      <!-- Thumbnail -->
+      <div id="thumbnailContainer" class="relative"></div>
+
+      <!-- Details -->
+      <div class="p-6 space-y-5">
+        <h2 id="videoTitle" class="text-2xl font-bold text-gray-900 dark:text-gray-100 line-clamp-2"></h2>
+        <div class="flex flex-wrap gap-4 text-sm text-gray-500 dark:text-gray-400">
+          <div id="channelName" class="flex items-center gap-2"><span></span></div>
+          <div id="duration" class="flex items-center gap-2"><span></span></div>
         </div>
-    </div>
-</div>
 
-<!-- Main Content -->
-<div class="header">
-    <div class="menu-icon" onclick="openDrawer()">
-        <div></div>
-        <div></div>
-        <div></div>
-    </div>
-    <span class="header-title">Cricket News Point</span>
-</div>
-
-<div id="mainContent" style="display:none;">
-    <div class="player-card">
-        <div class="player-title">Live Match Stream</div>
-        <div class="iframe-wrap" id="iframe-wrap">
-            <!-- এখানে js দিয়ে iframe ইনজেক্ট হবে modal ক্লিয়ার হলে -->
+        <!-- Download Buttons -->
+        <div class="grid gap-3 sm:grid-cols-2">
+          <button onclick="downloadAudio()" class="bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl flex items-center justify-center gap-2 font-medium shadow-md">MP3 (128kbps)</button>
+          <button onclick="downloadVideo('360')" class="bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl flex items-center justify-center gap-2 font-medium shadow-md">MP4 (360p)</button>
+          <button onclick="downloadVideo('480')" class="bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl flex items-center justify-center gap-2 font-medium shadow-md">MP4 (480p)</button>
+          <button onclick="downloadVideo('720')" class="bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl flex items-center justify-center gap-2 font-medium shadow-md">MP4 (720p)</button>
+          <button onclick="downloadVideo('1080')" class="bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl flex items-center justify-center gap-2 font-medium shadow-md sm:col-span-2">MP4 (1080p)</button>
         </div>
+      </div>
     </div>
-
-    <div class="quality-buttons">
-        <button class="quality-btn" id="btn-144" data-src="https://dish.slivcdn.com/hls/live/2020591/TEN3HD/master_108.m3u8">144p</button>
-        <button class="quality-btn" id="btn-240" data-src="https://dish.slivcdn.com/hls/live/2020591/TEN3HD/master_224.m3u8">240p</button>
-        <button class="quality-btn active" id="btn-360" data-src="https://dish.slivcdn.com/hls/live/2020591/TEN3HD/master_664.m3u8">360p</button>
-        <button class="quality-btn" id="btn-540" data-src="https://dish.slivcdn.com/hls/live/2020591/TEN3HD/master_900.m3u8">540p</button>
-        <button class="quality-btn" id="btn-720" data-src="https://dish.slivcdn.com/hls/live/2020591/TEN3HD/master_1300.m3u8">720p</button>
-    </div>
-    <button class="big-btn" id="btn-1080" data-src="https://dish.slivcdn.com/hls/live/2020591/TEN3HD/master_3500.m3u8">1080p Full HD</button>
-
-    <button class="join-wa-btn" onclick="window.open('https://whatsapp.com/channel/0029VaeylYYBPzjVNomWuZ0T','_blank');">
-        Join WhatsApp Channel
-    </button>
+  </div>
 </div>
 
 <script>
-    // Track current quality src
-    let currentSrc = "https://dish.slivcdn.com/hls/live/2020591/TEN3HD/master_664.m3u8";
+// SweetAlert Toasts
+const Toast = Swal.mixin({
+  toast:true, position:'top-end', showConfirmButton:false, timer:3000, timerProgressBar:true,
+  didOpen:(toast)=>{toast.addEventListener('mouseenter',Swal.stopTimer); toast.addEventListener('mouseleave',Swal.resumeTimer);}
+});
+function showLoading(msg){return Swal.fire({html:`<div class="space-y-3"><div class="w-16 h-16 mx-auto border-4 border-gray-200 border-t-blue-500 rounded-full animate-spin"></div><div class="text-gray-600 text-sm">${msg}</div></div>`,showConfirmButton:false,allowOutsideClick:false,background:'#fff',customClass:{popup:'rounded-2xl'}});}
+function showSuccess(msg){Toast.fire({icon:'success',title:msg,background:'#F0FDF4',iconColor:'#22C55E'});}
+function showError(msg){Toast.fire({icon:'error',title:msg,background:'#FEF2F2',iconColor:'#EF4444'});}
 
-    // Modal Functions
-    function hideModal() {
-        document.getElementById('modal').style.display = "none";
-        document.getElementById('mainContent').style.display = "block";
-        injectIframe(currentSrc);
-    }
+// Video Info
+function getVideoInfo(){
+  const url = $('#youtubeUrl').val().trim();
+  if(!url) return showError('Please enter a YouTube URL');
+  showLoading('Fetching video info...');
+  $('#videoInfo').addClass('hidden');
 
-    // Hide all content until modal is dismissed
-    window.onload = function() {
-        document.getElementById('modal').style.display = "flex";
-        document.getElementById('mainContent').style.display = "none";
-    };
+  $.ajax({
+    url:'/api/info',
+    type:'GET',
+    data:{url},
+    success:(res)=>{
+      $('#thumbnailContainer').html(`<img src="${res.thumbnail}" class="w-full object-cover">`);
+      $('#videoTitle').text(res.title);
+      $('#channelName span').text(res.author);
+      $('#duration span').text(res.duration);
+      $('#videoInfo').removeClass('hidden'); 
+      Swal.close(); showSuccess('Video info loaded');
+    },
+    error:(xhr)=>{Swal.close(); showError(xhr.responseJSON?.error||'Failed to fetch info');}
+  });
+}
 
-    // Side Drawer
-    function openDrawer() {
-        document.getElementById('drawer').style.display = "flex";
-        document.body.style.overflow = "hidden";
-    }
-    document.addEventListener('click', function(e){
-        let drawer = document.getElementById('drawer');
-        let menu = document.querySelector('.menu-icon');
-        if(drawer.style.display === "flex" && !drawer.contains(e.target) && !menu.contains(e.target)) {
-            drawer.style.display = "none";
-            document.body.style.overflow = "";
-        }
-    }, true);
+// Download
+function downloadFile(format,quality){
+  const url = $('#youtubeUrl').val().trim();
+  if(!url) return showError('Please enter a YouTube URL');
+  showLoading(`Preparing ${format.toUpperCase()} (${quality})...`);
 
-    // Quality Switch for Iframe
-    function injectIframe(src) {
-        let wrap = document.getElementById('iframe-wrap');
-        wrap.innerHTML = '';
-        let iframe = document.createElement('iframe');
-        iframe.className = 'player-iframe';
-        iframe.id = 'liveIframe';
-        iframe.src = src;
-        iframe.setAttribute('allowfullscreen', '');
-        iframe.setAttribute('allow', 'autoplay; encrypted-media');
-        wrap.appendChild(iframe);
-    }
-    function setQuality(btn) {
-        document.querySelectorAll('.quality-btn, .big-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        currentSrc = btn.getAttribute('data-src');
-        // শুধু তখনই সোর্স চেঞ্জ করো যদি iframe আছে (মানে modal ক্লিয়ার)
-        let iframe = document.getElementById('liveIframe');
-        if(iframe){
-            iframe.src = currentSrc;
-        }
-    }
-    document.querySelectorAll('.quality-btn, .big-btn').forEach(btn => {
-        btn.onclick = function() {
-            setQuality(btn);
-        }
-    });
+  $.ajax({
+    url:'/api/download',
+    type:'GET',
+    data:{videoUrl:url, format_type:format, quality},
+    xhrFields:{responseType:'blob'},
+    success:(res)=>{
+      const cleanTitle=$('#videoTitle').text().replace(/[<>:"/\\|?*]/g,'').substring(0,80);
+      const type=format==='mp3'?'audio/mpeg':'video/mp4';
+      const blob=new Blob([res],{type});
+      const dlUrl=URL.createObjectURL(blob);
+      const a=document.createElement('a'); a.href=dlUrl; a.download=`${cleanTitle}-${quality}.${format}`;
+      document.body.appendChild(a); a.click();
+      setTimeout(()=>{URL.revokeObjectURL(dlUrl); document.body.removeChild(a); Swal.close(); showSuccess(`${format.toUpperCase()} ${quality} downloaded`);},100);
+    },
+    error:(xhr)=>{Swal.close(); showError(xhr.responseJSON?.error||'Download failed');}
+  });
+}
 
-    // Visitor Counter Modal
-    function showVisitorCount() {
-        document.getElementById('visitorModal').style.display = "flex";
-    }
-    function hideVisitorCount() {
-        document.getElementById('visitorModal').style.display = "none";
-    }
+function downloadAudio(){downloadFile('mp3','128');}
+function downloadVideo(q){downloadFile('mp4',q);}
+
+// Page Fade-in
+document.addEventListener('DOMContentLoaded',()=>{document.body.style.opacity='1';});
+if(window.matchMedia('(prefers-color-scheme: dark)').matches){document.documentElement.classList.add('dark');}
 </script>
+
 </body>
-                                                                                                                                                              </html>
+</html>                                                                                                                                                              </html>
             
