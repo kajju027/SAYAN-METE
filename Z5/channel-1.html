@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>ZEE 5 - SAYAN</title>
+  <script src="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/shaka-player.ui.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/controls.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    html, body { margin: 0; padding: 0; background: #000; height: 100%; }
+    #video-container { width: 100%; height: 100%; position: relative; }
+    video { width: 100%; height: 100%; background: #000; }
+    #overlay-image {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 9;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+      z-index: 5;
+    }
+    .shaka-controls-container { z-index: 10 !important; }
+    .shaka-play-button { z-index: 15 !important; }
+  </style>
+</head>
+<body>
+  <div id="video-container">
+    <video id="video" class="shaka-video" autoplay muted></video>
+    <img id="overlay-image" src="https://imagesdishtvd2h.whatsonindia.com/dasimages/channel/landscape/360x270/qss9gFuH.png" alt="willowsports-hrb">
+    <div class="shaka-controls-container" shaka-controls></div>
+  </div>  
+
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const manifestUri = 'https://d1g8wgjurz8via.cloudfront.net/bpk-tv/Zeecinema/default/manifest.mpd';
+      const video = document.getElementById('video');
+      const overlayImage = document.getElementById('overlay-image');
+      const container = document.getElementById('video-container');
+
+      const player = new shaka.Player(video);
+      const ui = new shaka.ui.Overlay(player, container, video);
+
+      // ডিফল্ট কনফিগারেশন
+      player.configure({
+        drm: {
+          clearKeys: {
+            '43513b13f4b542e39c9265921dfc1726': 'b0b2678bcd274c37b888a6c987d502ed'
+          }
+        },
+        abr: {
+          enabled: false // auto-bitrate বন্ধ
+        },
+        restrictions: {
+          maxHeight: 360 // ডিফল্ট 360p
+        }
+      });
+
+      ui.configure({
+        controlPanelElements: [
+          'play_pause', 'rewind', 'fast_forward', 'time_and_duration',
+          'spacer', 'mute', 'volume', 'captions', 'quality', 'playback_rate', 
+          'cast', 'loop', 'fullscreen'
+        ],
+        enableQualitySelection: true
+      });
+
+      player.addEventListener('error', (e) => console.error('Error code', e.detail.code, e.detail));
+
+      try {
+        await player.load(manifestUri);
+        console.log('The video has now been loaded!');
+        video.play(); // নিশ্চিত করতে অটোমেটিক প্লে
+      } catch (e) {
+        console.error('Error loading video', e);
+      }
+
+      video.addEventListener('playing', () => {
+        overlayImage.remove();
+      });
+    });
+  </script>
+</body>
+</html>
