@@ -8,59 +8,55 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <style>
     html, body { margin: 0; padding: 0; background: #000; height: 100%; }
-    #video-container { width: 100%; height: 100%; position: relative; }
+    #main-container { display: flex; height: 100vh; }
+    #channel-list {
+      width: 200px; background: #111; color: #fff; overflow-y: auto;
+      padding: 10px; box-sizing: border-box;
+    }
+    #channel-list img {
+      width: 100%; border-radius: 8px; margin-bottom: 8px; cursor: pointer;
+      transition: transform 0.2s;
+    }
+    #channel-list img:hover { transform: scale(1.05); }
+    #video-container { flex: 1; position: relative; background: #000; }
     video { width: 100%; height: 100%; background: #000; }
     #overlay-image {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 100%;
-      height: auto;
-      aspect-ratio: 16 / 9;
+      position: absolute; top: 50%; left: 50%;
+      width: 100%; height: auto; aspect-ratio: 16 / 9;
       transform: translate(-50%, -50%);
-      object-fit: cover;
-      z-index: 5;
+      object-fit: cover; z-index: 5;
     }
     .shaka-controls-container { z-index: 10 !important; }
     .shaka-play-button { z-index: 15 !important; }
   </style>
 </head>
 <body>
-  <div id="video-container">
-    <video id="video" class="shaka-video" autoplay muted></video>
-    <img id="overlay-image" src="https://imagesdishtvd2h.whatsonindia.com/dasimages/channel/landscape/360x270/qss9gFuH.png" alt="willowsports-hrb">
-    <div class="shaka-controls-container" shaka-controls></div>
-  </div>  
+  <div id="main-container">
+    <!-- Left side channel list -->
+    <div id="channel-list"></div>
+
+    <!-- Video player -->
+    <div id="video-container">
+      <video id="video" class="shaka-video" autoplay muted></video>
+      <img id="overlay-image" src="" alt="overlay">
+      <div class="shaka-controls-container" shaka-controls></div>
+    </div>
+  </div>
 
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
-      const manifestUri = 'https://d1g8wgjurz8via.cloudfront.net/bpk-tv/Zeecinema/default/manifest.mpd';
       const video = document.getElementById('video');
       const overlayImage = document.getElementById('overlay-image');
       const container = document.getElementById('video-container');
+      const channelList = document.getElementById('channel-list');
 
       const player = new shaka.Player(video);
       const ui = new shaka.ui.Overlay(player, container, video);
 
-      // ডিফল্ট কনফিগারেশন
-      player.configure({
-        drm: {
-          clearKeys: {
-            '43513b13f4b542e39c9265921dfc1726': 'b0b2678bcd274c37b888a6c987d502ed'
-          }
-        },
-        abr: {
-          enabled: false // auto-bitrate বন্ধ
-        },
-        restrictions: {
-          maxHeight: 360 // ডিফল্ট 360p
-        }
-      });
-
       ui.configure({
         controlPanelElements: [
           'play_pause', 'rewind', 'fast_forward', 'time_and_duration',
-          'spacer', 'mute', 'volume', 'captions', 'quality', 'playback_rate', 
+          'spacer', 'mute', 'volume', 'captions', 'quality', 'playback_rate',
           'cast', 'loop', 'fullscreen'
         ],
         enableQualitySelection: true
@@ -68,17 +64,54 @@
 
       player.addEventListener('error', (e) => console.error('Error code', e.detail.code, e.detail));
 
+      // JSON fetch
       try {
-        await player.load(manifestUri);
-        console.log('The video has now been loaded!');
-        video.play(); // নিশ্চিত করতে অটোমেটিক প্লে
+        const res = await fetch('https://tvgo.neocities.org/Json/zee5.txt');
+        const channels = await res.json();
+
+        channels.forEach(ch => {
+          const img = document.createElement('img');
+          img.src = ch.logo;
+          img.alt = ch.name;
+          img.title = ch.name;
+          img.addEventListener('click', () => loadChannel(ch));
+          channelList.appendChild(img);
+        });
+
+        // ডিফল্ট প্রথম চ্যানেল চালাও
+        if (channels.length > 0) {
+          loadChannel(channels[0]);
+        }
+
       } catch (e) {
-        console.error('Error loading video', e);
+        console.error('JSON load error:', e);
       }
 
-      video.addEventListener('playing', () => {
-        overlayImage.remove();
-      });
+      async function loadChannel(ch) {
+        console.log("Loading:", ch.name);
+
+        player.configure({
+          drm: ch.id1 && ch.id2 ? {
+            clearKeys: { [ch.id1]: ch.id2 }
+          } : {},
+          abr: { enabled: false }, // Auto bitrate বন্ধ
+          restrictions: { maxHeight: 360 } // ডিফল্ট 360p
+        });
+
+        overlayImage.src = ch.logo;
+        overlayImage.style.display = 'block';
+
+        try {
+          await player.load(ch.id || ch.m3u8);
+          video.play();
+        } catch (e) {
+          console.error('Error loading channel', e);
+        }
+
+        video.addEventListener('playing', () => {
+          overlayImage.style.display = 'none';
+        });
+      }
     });
   </script>
 </body>
