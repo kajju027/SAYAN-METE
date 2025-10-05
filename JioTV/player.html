@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Live Player </title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.css" />
+
+<style>
+  :root {
+    --accent: #00c853;
+    --glow: 0 0 20px rgba(0,200,83,0.6);
+    --bg: #0a0b0f;
+    --topbar: #101216;
+  }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: #fff;
+    font-family: "Poppins", sans-serif;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* Top Bar */
+  .topbar {
+    background: var(--topbar);
+    box-shadow: 0 0 10px rgba(0,0,0,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 18px;
+    position: relative;
+    z-index: 5;
+  }
+
+  .back {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+  }
+
+  .back:hover {
+    color: #66ffa6;
+  }
+
+  #channelName {
+    font-size: 17px;
+    font-weight: 500;
+    color: #e0e0e0;
+    text-shadow: 0 0 6px rgba(255,255,255,0.2);
+  }
+
+  /* Player */
+  video {
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, #111 0%, #000 100%);
+  }
+
+  /* Popup Overlay */
+  .popup {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+
+  .popup.show {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .popup-content {
+    background: linear-gradient(145deg, #121416, #0d0e11);
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(0,200,83,0.25), inset 0 0 15px rgba(255,255,255,0.05);
+    text-align: center;
+    padding: 30px 25px;
+    width: 90%;
+    max-width: 360px;
+    animation: fadeIn 0.5s ease;
+    transform: scale(1.02);
+  }
+
+  .popup-content img {
+    width: 85px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+    box-shadow: var(--glow);
+  }
+
+  .popup-content h2 {
+    margin: 8px 0;
+    font-size: 22px;
+    background: linear-gradient(90deg,#00c853,#00e676);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .popup-content p {
+    color: #aaa;
+    font-size: 15px;
+    margin-bottom: 25px;
+  }
+
+  .popup-content .btn {
+    display: inline-block;
+    padding: 10px 22px;
+    margin: 6px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s;
+  }
+
+  .btn-join {
+    background: linear-gradient(90deg,#0088cc,#00b0ff);
+    color: #fff;
+    box-shadow: 0 0 15px rgba(0,136,204,0.4);
+    text-decoration: none;
+  }
+
+  .btn-join:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(0,180,255,0.6);
+  }
+
+  .btn-close {
+    background: #222;
+    color: #ccc;
+  }
+
+  .btn-close:hover {
+    background: #333;
+    color: #fff;
+  }
+
+  @keyframes fadeIn {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+</style>
+</head>
+
+<body>
+  <div class="topbar">
+    <a href="index.html" class="back">← Back</a>
+    <span id="channelName"></span>
+  </div>
+
+  <video id="player" controls playsinline></video>
+
+  <!-- Telegram Popup -->
+  <div class="popup" id="telegramPopup">
+    <div class="popup-content">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" />
+      <h2>Join Our Telegram</h2>
+      <p>Get the latest sports & live TV updates instantly on Telegram!</p>
+      <a href="https://t.me/crictos99" target="_blank" class="btn btn-join" id="joinBtn">Join Now</a>
+      <div class="btn btn-close" id="closePopup">Close</div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.min.js"></script>
+
+  <script>
+    const popup = document.getElementById("telegramPopup");
+    const closeBtn = document.getElementById("closePopup");
+    const joinBtn = document.getElementById("joinBtn");
+
+    // Hide popup
+    function hidePopup() {
+      popup.classList.remove("show");
+    }
+
+    closeBtn.addEventListener("click", hidePopup);
+    joinBtn.addEventListener("click", hidePopup);
+
+    async function loadPlayer() {
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get("id");
+      if (!id) return alert("No channel selected.");
+
+      const res = await fetch("JioTV.json");
+      const data = await res.json();
+      const channel = data.find(ch => ch.id === id);
+      if (!channel) return alert("Channel not found.");
+
+      document.getElementById("channelName").innerText = channel.name;
+      const video = document.getElementById("player");
+
+      // Load stream
+      if (Hls.isSupported()) {
+        const hls = new Hls();
+        hls.loadSource(channel.url);
+        hls.attachMedia(video);
+        hls.on(Hls.Events.MANIFEST_PARSED, () => video.play());
+      } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+        video.src = channel.url;
+      }
+
+      new Plyr(video);
+
+      // Show popup after 1s every time
+      setTimeout(() => popup.classList.add("show"), 1000);
+    }
+
+    loadPlayer();
+  </script>
+</body>
+</html>
