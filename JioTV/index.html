@@ -92,7 +92,7 @@
 </head>
 <body>
   <header>
-    <h1>📺 JioTV WEB</h1>
+    <h1>JioTV WEB</h1>
     <input type="text" id="search" placeholder="Search channel..." />
   </header>
 
@@ -102,7 +102,7 @@
     let allChannels = [];
 
     async function loadChannels() {
-      const res = await fetch('JioTV.json');
+      const res = await fetch('data.json');
       allChannels = await res.json();
       renderChannels(allChannels);
     }
