@@ -194,7 +194,7 @@
       const id = params.get("id");
       if (!id) return alert("No channel selected.");
 
-      const res = await fetch("JioTV.json");
+      const res = await fetch("data.json");
       const data = await res.json();
       const channel = data.find(ch => ch.id === id);
       if (!channel) return alert("Channel not found.");
