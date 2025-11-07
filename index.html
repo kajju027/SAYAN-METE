@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Google tag -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-348YDEH740"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-348YDEH740');
+  </script>
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Sayan Mete — Web Developer & Cybersecurity Enthusiast</title>
@@ -56,7 +65,7 @@
     --bg: #0f2228;
     --card: #11282d;
     --text: #e7f3f6;
-    --primary: #0d414a; /* <-- main brand color */
+    --primary: #0d414a;
     --accent: rgba(255,255,255,0.03);
     --muted: #9fb5b9;
     --glass: rgba(255,255,255,0.03);
@@ -86,11 +95,9 @@
   section.card{background:var(--card);padding:18px;border-radius:var(--radius);box-shadow:0 6px 30px rgba(3,10,12,0.5)}
   .section-title{color:var(--primary);font-weight:800;margin-bottom:10px}
 
-  /* Skills */
   .skills{display:flex;flex-wrap:wrap;gap:8px}
   .skill{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:8px 12px;border-radius:12px;font-weight:700;color:var(--text)}
 
-  /* Right column */
   aside.right{display:flex;flex-direction:column;gap:18px}
   .socials{display:flex;flex-direction:column;gap:8px}
   .socials a{display:flex;align-items:center;gap:10px;padding:10px;border-radius:12px;text-decoration:none;background:var(--glass);font-weight:700}
@@ -99,14 +106,12 @@
   .contact a{display:block;text-decoration:none;margin-top:6px;padding:10px;border-radius:12px;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));font-weight:700}
   .footer{margin-top:18px;color:var(--muted);font-size:.95rem;text-align:center}
 
-  /* Mobile tweaks */
   @media (max-width:600px){
     header{flex-direction:row;gap:12px}
     .meta{display:none}
     .wrap{padding:14px}
   }
 
-  /* Particles container fixed */
   #dynamic-particles{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;pointer-events:none}
   </style>
 </head>
@@ -133,14 +138,12 @@
 
     <main>
       <div>
-        <!-- ABOUT -->
         <section id="about" class="card" aria-labelledby="about-title">
           <div id="about-title" class="section-title">About</div>
           <p>Hello! I'm <strong>Sayan</strong>, a web developer and cybersecurity enthusiast focused on building fast, secure, and accessible websites. I enjoy learning new technologies, improving performance, and applying security best practices to real projects.</p>
           <p>My work combines frontend development with practical security skills — I build tools and small apps and enjoy automation, bots, and defensive security research.</p>
         </section>
 
-        <!-- SKILLS -->
         <section id="skills" class="card" aria-labelledby="skills-title" style="margin-top:18px">
           <div id="skills-title" class="section-title">Skills</div>
           <div class="skills" aria-hidden="false">
@@ -155,7 +158,6 @@
           </div>
         </section>
 
-        <!-- PROJECTS (example placeholder) -->
         <section id="projects" class="card" aria-labelledby="projects-title" style="margin-top:18px">
           <div id="projects-title" class="section-title">Selected Projects</div>
           <ul>
@@ -166,10 +168,9 @@
           <p style="margin-top:8px;color:var(--muted)">Want me to add project pages or case studies? I can add dedicated pages with structured data and screenshots.</p>
         </section>
 
-        <!-- LONG-TERM: add blog or posts for better SEO -->
         <section class="card" style="margin-top:18px">
           <div class="section-title">Notes on SEO & Visibility</div>
-          <p style="color:var(--muted);margin:0">Tips applied to this site: structured data (Person), clean markup, mobile-first design, descriptive titles, Open Graph meta tags, and a sitemap <code>/sitemap.xml</code>  Also create consistent profiles (LinkedIn, GitHub, Telegram, Instagram) with links back here to improve authority.</p>
+          <p style="color:var(--muted);margin:0">Tips applied to this site: structured data (Person), clean markup, mobile-first design, descriptive titles, Open Graph meta tags, and a sitemap <code>/sitemap.xml</code>. Also create consistent profiles (LinkedIn, GitHub, Telegram, Instagram) with links back here to improve authority.</p>
         </section>
       </div>
 
@@ -201,26 +202,20 @@
     </main>
 
     <div class="footer" role="contentinfo">
-      <!-- Visitor counter (optional) -->
       <img alt="visits" src="https://visit-counter.vercel.app/counter.png?page=https%3A%2F%2Fyourdomain.com%2F&s=40&c=00ada8&bg=00000000&no=1&ff=digii&tb=&ta=" style="max-width:180px;margin-top:12px">
     </div>
   </div>
 
-  <!-- Scripts (deferred where possible) -->
   <script>
-  // Auto-update year
   document.getElementById('year').textContent = new Date().getFullYear();
 
-  // Basic keyboard accessibility for in-page nav (skip links not included here but can be added)
   (function(){
-    // smooth scroll for same-page links
     document.querySelectorAll('a[href^="#"]').forEach(function(el){
       el.addEventListener('click', function(e){
         var target = document.querySelector(this.getAttribute('href'));
         if(target){
           e.preventDefault();
           target.scrollIntoView({behavior:'smooth', block:'start'});
-          // focus for accessibility
           setTimeout(function(){ target.setAttribute('tabindex','-1'); target.focus(); }, 600);
         }
       });
@@ -228,7 +223,6 @@
   })();
   </script>
 
-  <!-- Particles (lazy init) -->
   <script defer src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
   <script>
   function initParticles(){
@@ -251,11 +245,9 @@
         retina_detect: true
       });
     }catch(e){
-      // particles failed — ignore gracefully
       console.warn('Particles init failed', e);
     }
   }
-  // Init when library loaded (poll)
   (function waitForParticles(){
     if(window.particlesJS) return initParticles();
     setTimeout(waitForParticles, 300);
