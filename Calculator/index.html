@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genius Scientific Calculator | SAYAN METE </title>
+    <style>
+        /* CSS: Styling remains the same for a clean look */
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f2f5;
+            margin: 0;
+            user-select: none;
+        }
+
+        .calculator {
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            width: 320px;
+            padding: 20px;
+        }
+
+        .display {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: right;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        #history-display {
+            font-size: 14px;
+            color: #bdc3c7;
+            min-height: 18px;
+        }
+
+        #result-display {
+            font-size: 3em;
+            font-weight: bold;
+            min-height: 50px;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .btn {
+            background-color: #e0e0e0;
+            border: none;
+            border-radius: 10px;
+            padding: 15px 0;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        .btn:hover {
+            background-color: #d1d1d1;
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        .operator {
+            background-color: #f39c12;
+            color: white;
+        }
+
+        .operator:hover {
+            background-color: #e67e22;
+        }
+
+        .equals {
+            background-color: #2ecc71;
+            color: white;
+            grid-column: span 2;
+        }
+
+        .equals:hover {
+            background-color: #27ae60;
+        }
+
+        .function {
+            background-color: #3498db;
+            color: white;
+            font-size: 0.9em;
+        }
+
+        .function:hover {
+            background-color: #2980b9;
+        }
+
+        /* History Panel Styles */
+        .history-panel {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 100%;
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+            z-index: 1000;
+        }
+
+        .history-panel.open {
+            transform: translateX(0);
+        }
+        
+        #history-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+            max-height: calc(100vh - 100px);
+            overflow-y: auto;
+        }
+
+        #history-list li {
+            padding: 10px;
+            border-bottom: 1px solid #34495e;
+            cursor: pointer;
+            transition: background-color 0.1s;
+        }
+
+        #history-list li:hover {
+            background-color: #34495e;
+        }
+
+        .history-item-expression {
+            font-size: 0.9em;
+            color: #bdc3c7;
+        }
+
+        .history-item-result {
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        #clear-history-btn {
+            background: none;
+            border: 1px solid #e74c3c;
+            color: #e74c3c;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8em;
+            transition: background-color 0.2s;
+        }
+
+        #clear-history-btn:hover {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        /* Hamburger Menu (Three Lines) */
+        .hamburger {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            cursor: pointer;
+            z-index: 1001; 
+            color: #3498db;
+            font-size: 30px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="hamburger" id="history-toggle">☰</div>
+
+    <div class="calculator">
+        <div class="display">
+            <div id="history-display"></div>
+            <div id="result-display">0</div>
+        </div>
+        <div class="buttons">
+            <button class="btn function" onclick="clearAll(true)">AC</button> 
+            <button class="btn function" onclick="toggleHistory()">Hist</button> 
+            <button class="btn function" onclick="calculateFunction('sqrt')">√</button>
+            <button class="btn function" onclick="calculateFunction('power2')">x²</button>
+            
+            <button class="btn function" onclick="calculateFunction('sin')">sin</button>
+            <button class="btn function" onclick="calculateFunction('cos')">cos</button>
+            <button class="btn function" onclick="calculateFunction('tan')">tan</button>
+            <button class="btn operator" onclick="appendOperator('/')">÷</button>
+
+            <button class="btn" onclick="appendInput('7')">7</button>
+            <button class="btn" onclick="appendInput('8')">8</button>
+            <button class="btn" onclick="appendInput('9')">9</button>
+            <button class="btn operator" onclick="appendOperator('*')">×</button>
+            
+            <button class="btn" onclick="appendInput('4')">4</button>
+            <button class="btn" onclick="appendInput('5')">5</button>
+            <button class="btn" onclick="appendInput('6')">6</button>
+            <button class="btn operator" onclick="appendOperator('-')">-</button>
+            
+            <button class="btn" onclick="appendInput('1')">1</button>
+            <button class="btn" onclick="appendInput('2')">2</button>
+            <button class="btn" onclick="appendInput('3')">3</button>
+            <button class="btn operator" onclick="appendOperator('+')">+</button>
+            
+            <button class="btn" onclick="appendInput('0')">0</button>
+            <button class="btn" onclick="appendInput('.')">.</button>
+            <button class="btn equals" onclick="calculateResult()">=</button>
+            <button class="btn function" onclick="calculateFunction('log')">log</button>
+
+            <button class="btn function" onclick="calculateFunction('factorial')">n!</button>
+            <button class="btn function" onclick="appendInput('Math.PI')">π</button>
+            <button class="btn function" onclick="calculateFunction('percent')">%</button>
+            <button class="btn function" onclick="backspace()">DEL</button>
+        </div>
+    </div>
+
+    <div class="history-panel" id="history-panel">
+        <div class="history-header">
+            <h3>Calculation History</h3>
+            <button id="clear-history-btn">Clear History</button>
+        </div>
+        <ul id="history-list">
+            </ul>
+    </div>
+
+    <audio id="key-sound" src="https://www.soundjay.com/buttons/button-2.mp3" preload="auto"></audio> 
+    <audio id="result-sound" src="https://www.soundjay.com/misc/camera-shutter-click-01.mp3" preload="auto"></audio>
+    <audio id="ac-sound" src="https://www.soundjay.com/misc/water-drop-1.mp3" preload="auto"></audio>
+    
+    <script>
+        // JavaScript: Logic and Functionality
+        let currentInput = '0';
+        let expression = '';
+        let history = [];
+        
+        const display = document.getElementById('result-display');
+        const historyDisplay = document.getElementById('history-display');
+        const historyList = document.getElementById('history-list');
+        const historyPanel = document.getElementById('history-panel');
+        const historyToggle = document.getElementById('history-toggle');
+        const clearHistoryBtn = document.getElementById('clear-history-btn');
+
+        // Sound Elements
+        const keySound = document.getElementById('key-sound');
+        const resultSound = document.getElementById('result-sound');
+        const acSound = document.getElementById('ac-sound');
+        
+        const MAX_DECIMAL_PLACES = 10;
+        
+        function formatResult(value) {
+            return value.toFixed(MAX_DECIMAL_PLACES).replace(/\.?0+$/, "");
+        }
+
+        function updateDisplay() {
+            display.textContent = currentInput;
+            historyDisplay.textContent = expression.replace(/\*/g, '×').replace(/\//g, '÷');
+        }
+
+        // General Key Press Sound (Halka Sound)
+        function playKeySound(isAC = false, isResult = false) {
+            let soundToPlay;
+            if (isAC) {
+                soundToPlay = acSound;
+            } else if (isResult) {
+                soundToPlay = resultSound;
+            } else {
+                soundToPlay = keySound;
+            }
+            
+            // Replay the sound from the start
+            soundToPlay.currentTime = 0;
+            soundToPlay.play().catch(e => console.log("Audio play failed:", e)); 
+        }
+
+        // Number or Constant Input
+        function appendInput(value) {
+            playKeySound();
+            // ... (rest of appendInput logic remains the same)
+             if (value === 'Math.PI') {
+                if (currentInput === '0' || currentInput === 'Error') {
+                    currentInput = formatResult(Math.PI);
+                    expression = 'Math.PI';
+                } else if (/[0-9\.]$/.test(expression)) {
+                    return; 
+                } else {
+                    currentInput = formatResult(Math.PI);
+                    expression += '*Math.PI'; 
+                }
+            } else {
+                if (currentInput === '0' || currentInput === 'Error' || /[\+\-\*\/]/.test(currentInput)) {
+                    currentInput = value;
+                    expression = (expression === '0' || expression === '') ? value : expression + value;
+                } else {
+                    currentInput += value;
+                    expression += value;
+                }
+            }
+            updateDisplay();
+        }
+
+        // Operator Input
+        function appendOperator(operator) {
+            playKeySound();
+            if (currentInput === 'Error') return;
+            let displayOperator = operator === '*' ? '×' : operator === '/' ? '÷' : operator;
+            const lastChar = expression.slice(-1);
+            if (['+', '-', '*', '/'].includes(lastChar)) {
+                expression = expression.slice(0, -1) + operator;
+            } else {
+                expression += operator;
+            }
+            currentInput = displayOperator;
+            updateDisplay();
+        }
+        
+        // Clear All (AC) - Added specific AC Sound logic
+        function clearAll(triggerSound = false) {
+            if (triggerSound) {
+                playKeySound(true); // Play the specific AC sound
+            }
+            currentInput = '0';
+            expression = '';
+            updateDisplay();
+        }
+
+        // Backspace (DEL)
+        function backspace() {
+            playKeySound();
+            if (expression.length > 0) {
+                expression = expression.slice(0, -1);
+                
+                if (expression.length === 0) {
+                    currentInput = '0';
+                } else {
+                    const match = expression.match(/([0-9\.]+)|[\+\-\*\/]$/);
+                    currentInput = match ? match[0] : '';
+                }
+            }
+            updateDisplay();
+        }
+
+        // Scientific Functions (Logic remains robust)
+        function calculateFunction(func) {
+            playKeySound();
+            if (currentInput === 'Error') return;
+            
+            let num = parseFloat(currentInput);
+            let result;
+            let expr;
+
+            try {
+                // ... (Scientific function calculation logic remains the same)
+                switch(func) {
+                    case 'sqrt':
+                        result = Math.sqrt(num);
+                        expr = `sqrt(${num})`;
+                        break;
+                    case 'power2':
+                        result = Math.pow(num, 2);
+                        expr = `pow(${num}, 2)`;
+                        break;
+                    case 'sin':
+                    case 'cos':
+                    case 'tan':
+                        result = Math[func](num * (Math.PI / 180));
+                        expr = `${func}(${num}°)`;
+                        break;
+                    case 'log':
+                        result = Math.log10(num);
+                        expr = `log(${num})`;
+                        break;
+                    case 'factorial':
+                        result = factorial(num);
+                        expr = `${num}!`;
+                        break;
+                    case 'percent':
+                        result = num / 100;
+                        expr = `${num}%`;
+                        break;
+                    default:
+                        return;
+                }
+                
+                if (isNaN(result) || !isFinite(result)) {
+                    currentInput = 'Error';
+                } else {
+                    currentInput = formatResult(result);
+                }
+                
+                historyDisplay.textContent = expr + ' = ';
+                expression = currentInput; 
+                
+            } catch (e) {
+                currentInput = 'Error';
+            }
+            updateDisplay();
+        }
+        
+        function factorial(n) {
+            n = Math.floor(n);
+            if (n < 0) return NaN;
+            if (n === 0 || n === 1) return 1;
+            let res = 1;
+            for (let i = 2; i <= n; i++) {
+                res *= i;
+            }
+            return res;
+        }
+
+        // Calculate Result (= Button) - Added specific Result Sound logic
+        function calculateResult() {
+            if (currentInput === 'Error' || expression === '') return;
+            playKeySound(false, true); // Play the distinct Result sound
+            
+            let result;
+            let finalExpression = expression.replace(/×/g, '*').replace(/÷/g, '/');
+
+            try {
+                result = eval(finalExpression);
+
+                if (isNaN(result) || !isFinite(result)) {
+                    currentInput = 'Error';
+                } else {
+                    currentInput = formatResult(result); 
+                    addToHistory(finalExpression, currentInput);
+                    historyDisplay.textContent = finalExpression.replace(/\*/g, '×').replace(/\//g, '÷') + ' =';
+                }
+                
+            } catch (e) {
+                currentInput = 'Error';
+            }
+            
+            expression = currentInput; 
+            updateDisplay();
+        }
+        
+        // History Logic (Fixed the toggle issue)
+        function addToHistory(expr, res) {
+            const historyItem = {
+                expression: expr.replace(/\*/g, '×').replace(/\//g, '÷'), 
+                result: res
+            };
+            history.unshift(historyItem);
+            if (history.length > 20) {
+                history.pop();
+            }
+            renderHistory();
+        }
+        
+        function renderHistory() {
+            historyList.innerHTML = '';
+            history.forEach((item) => {
+                const li = document.createElement('li');
+                li.innerHTML = `<div class="history-item-expression">${item.expression}</div><div class="history-item-result">${item.result}</div>`;
+                li.onclick = () => recallHistory(item);
+                historyList.appendChild(li);
+            });
+        }
+
+        function recallHistory(item) {
+            currentInput = item.result; 
+            expression = item.result; 
+            updateDisplay();
+            toggleHistory();
+        }
+        
+        // History Panel Toggle (☰ / Hist Button) - Now guaranteed to work with both buttons
+        function toggleHistory() {
+            playKeySound();
+            historyPanel.classList.toggle('open');
+            historyToggle.textContent = historyPanel.classList.contains('open') ? '✕' : '☰';
+        }
+        
+        historyToggle.onclick = toggleHistory; // Attach event listener to the ☰ button
+
+        clearHistoryBtn.onclick = () => {
+            history = [];
+            renderHistory();
+        }
+
+        updateDisplay();
+
+    </script>
+</body>
+</html>
