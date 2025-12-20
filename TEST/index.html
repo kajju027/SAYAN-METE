@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sayan Mete | Crafting Digital Experiences (2025)</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-dark': '#231942', // Your darker HEX color
+                        'accent-pink': '#E0B1CB', // Your lighter HEX color
+                        'dark-bg': '#1A112A',     // Slightly darker background
+                        'card-bg': '#2C2050',     // Card background
+                        'text-light': '#F5F5F5',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'], // A modern, premium font
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* General Dark Theme */
+        body {
+            background-color: #1A112A; /* dark-bg */
+            color: #F5F5F5; /* text-light */
+            font-family: 'Inter', sans-serif;
+        }
+        
+        /* Premium Custom Scrollbar Styling (For WebKit Browsers) */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #231942; /* primary-dark */
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #E0B1CB; /* accent-pink */
+            border-radius: 4px;
+        }
+        
+        /* Animation Classes */
+        .miss-call-effect {
+            animation: pulse-ring 0.8s infinite;
+        }
+        @keyframes pulse-ring {
+            0% { box-shadow: 0 0 0 0 rgba(224, 177, 203, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(224, 177, 203, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(224, 177, 203, 0); }
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+
+    <header id="header" class="sticky top-0 z-50 bg-primary-dark/80 backdrop-blur-sm p-4 shadow-lg border-b border-accent-pink/20">
+        <div class="container mx-auto flex justify-between items-center max-w-7xl">
+            <a href="#hero" class="text-2xl font-extrabold text-accent-pink tracking-wider">SAYAN.</a>
+            <nav id="nav-links" class="hidden md:flex space-x-8 text-lg font-medium">
+                <a href="#about" class="hover:text-accent-pink transition duration-300">About</a>
+                <a href="#skills" class="hover:text-accent-pink transition duration-300">Skills</a>
+                <a href="#projects" class="hover:text-accent-pink transition duration-300">Projects</a>
+                <a href="#contact" class="hover:text-accent-pink transition duration-300">Contact</a>
+            </nav>
+            <div id="mobile-menu-btn" class="md:hidden text-2xl cursor-pointer text-accent-pink">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <div id="mobile-menu" class="fixed inset-0 bg-primary-dark z-40 flex flex-col items-center justify-center space-y-8 hidden">
+        <div id="close-menu-btn" class="absolute top-6 right-6 text-3xl cursor-pointer text-accent-pink">
+            <i class="fas fa-times"></i>
+        </div>
+        <a href="#about" class="text-3xl font-bold text-text-light hover:text-accent-pink transition duration-300">About</a>
+        <a href="#skills" class="text-3xl font-bold text-text-light hover:text-accent-pink transition duration-300">Skills</a>
+        <a href="#projects" class="text-3xl font-bold text-text-light hover:text-accent-pink transition duration-300">Projects</a>
+        <a href="#contact" class="text-3xl font-bold text-text-light hover:text-accent-pink transition duration-300">Contact</a>
+    </div>
+
+    <main class="max-w-7xl mx-auto px-4 md:px-8">
+
+        <section id="hero" class="h-screen flex items-center pt-24 pb-12">
+            <div class="grid md:grid-cols-2 gap-12 items-center w-full">
+                <div class="hero-left">
+                    <p class="text-lg text-accent-pink mb-2 font-semibold">Hello, I'm</p>
+                    <h1 class="text-6xl md:text-8xl font-black leading-tight text-text-light" data-gsap="fade-up">Sayan Mete</h1>
+                    <h2 class="text-3xl md:text-4xl font-light text-text-light mt-2 mb-6" data-gsap="fade-up" data-gsap-delay="0.2">Crafting Digital Experiences</h2>
+                    <p class="text-xl text-text-light/70 mb-10 max-w-lg" data-gsap="fade-up" data-gsap-delay="0.4">
+                        Building intuitive interfaces and robust backends that transform complex ideas into elegant, functional web applications.
+                    </p>
+                    <a href="#contact" class="inline-block px-10 py-4 bg-accent-pink text-primary-dark font-bold text-lg rounded-full shadow-lg hover:shadow-2xl transform hover:scale-105 transition duration-500 miss-call-effect" data-gsap="fade-up" data-gsap-delay="0.6">
+                        Get In Touch
+                    </a>
+                </div>
+                <div class="hero-right hidden md:block" data-gsap="image-parallax">
+                    <img src="https://via.placeholder.com/600x600/2C2050/E0B1CB?text=High+Quality+Visual" alt="Sayan Mete Professional Visual" class="w-full h-auto object-cover rounded-3xl shadow-2xl border-4 border-accent-pink/50 transform translate-y-0 hover:translate-y-[-10px] transition duration-700 ease-out">
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="py-24 border-t border-accent-pink/20">
+            <h2 class="section-title text-5xl font-extrabold mb-16 text-center text-accent-pink/90" data-gsap="scroll-fade">About Me</h2>
+
+            <div class="grid md:grid-cols-2 gap-16 items-start">
+                <div data-gsap="scroll-fade-left">
+                    <p class="text-xl mb-4 leading-relaxed text-text-light/80">
+                        Hello! I'm Sayan Mete, a passionate and detail-oriented Full Stack Developer based in Kolkata, West Bengal, India. My journey began with a curiosity for how the web works, which quickly evolved into a dedicated pursuit of mastering the tools that shape digital experiences.
+                    </p>
+                    <p class="text-xl leading-relaxed text-text-light/80">
+                        I thrive on solving complex problems, writing clean, efficient code, and translating sophisticated technical concepts into intuitive user interfaces. My primary focus is on building high-performance, secure, and scalable applications that truly meet user needs and exceed expectations.
+                    </p>
+                    <p class="text-xl mt-4 leading-relaxed text-text-light/80 font-semibold border-l-4 border-accent-pink pl-4 italic">
+                        "Committed to lifelong learning, I aim to create the gold standard in web development, one pixel and one line of logic at a time."
+                    </p>
+                </div>
+                <div data-gsap="scroll-fade-right">
+                    <div class="p-6 bg-card-bg rounded-2xl shadow-xl">
+                        <h3 class="text-3xl font-bold mb-6 text-accent-pink">Core Competencies</h3>
+                        <div id="skills-summary-container" class="grid grid-cols-2 gap-6">
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="py-24 border-t border-accent-pink/20">
+            <h2 class="section-title text-5xl font-extrabold mb-16 text-center text-accent-pink/90" data-gsap="scroll-fade">Tech Stack & Tools</h2>
+            
+            <div id="detailed-skills-container" class="grid md:grid-cols-3 gap-8">
+                </div>
+        </section>
+
+
+        <section id="projects" class="py-24 border-t border-accent-pink/20">
+            <h2 class="section-title text-5xl font-extrabold mb-16 text-center text-accent-pink/90" data-gsap="scroll-fade">Featured Projects</h2>
+            
+            <div id="projects-container" class="space-y-24">
+                </div>
+        </section>
+
+        <section id="contact" class="py-24 border-t border-accent-pink/20">
+            <div class="text-center" data-gsap="scroll-fade">
+                <p class="text-xl text-accent-pink mb-4">Ready to collaborate?</p>
+                <h2 class="text-6xl font-black mb-8 leading-tight">Let's Build Something Great.</h2>
+                <p class="text-2xl text-text-light/80 mb-12 max-w-3xl mx-auto">
+                    Whether you have a complex idea, a challenging project, or just want to say hello, feel free to reach out.
+                </p>
+                
+                <a href="mailto:sayanbusiness027@gmail.com" class="inline-block px-12 py-5 bg-accent-pink text-primary-dark font-black text-xl rounded-full shadow-2xl transform hover:scale-105 transition duration-500 hover:bg-white miss-call-effect">
+                    <i class="fas fa-envelope mr-3"></i> sayanbusiness027@gmail.com
+                </a>
+
+                <div class="mt-16 flex justify-center space-x-8 text-4xl">
+                    <a href="https://github.com/kajju027" target="_blank" class="text-text-light hover:text-accent-pink transform hover:scale-125 transition duration-300" title="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" target="_blank" class="text-text-light hover:text-accent-pink transform hover:scale-125 transition duration-300" title="LinkedIn (Placeholder)">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="#" target="_blank" class="text-text-light hover:text-accent-pink transform hover:scale-125 transition duration-300" title="Twitter (Placeholder)">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-primary-dark border-t border-accent-pink/20 mt-16 p-8 text-center">
+        <div class="max-w-7xl mx-auto text-text-light/70 text-lg">
+            <p>&copy; 2025 Sayan. All Rights Reserved. Crafted with <i class="fas fa-heart text-red-500 mx-1"></i> and Code.</p>
+            <p class="mt-2">Inspired by the world's best creative developers.</p>
+        </div>
+    </footer>
+
+    <script type="module" src="./script.js"></script>
+
+</body>
+</html>
+
