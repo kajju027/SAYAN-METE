@@ -3,24 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sayan Mete | Crafting Premium Digital Experiences</title>
+    <title>Sayan Mete | The Ultimate Digital Experience (2025)</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://assets.codepen.io/163272/SplitText3.min.js"></script>
+
 
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        'primary-dark': '#231942', // Your darker HEX color
-                        'accent-pink': '#E0B1CB', // Your lighter HEX color
-                        'dark-bg': '#1A112A',     // Base Background
-                        'card-bg': '#2C2050',     // Card background
+                        'primary-dark': '#231942',
+                        'accent-pink': '#E0B1CB',
+                        'dark-bg': '#1A112A',
+                        'card-bg': '#2C2050',
                         'text-light': '#F5F5F5',
                     },
                     fontFamily: {
@@ -36,29 +38,45 @@
             background-color: #1A112A;
             color: #F5F5F5;
             font-family: 'Inter', sans-serif;
-            cursor: none; /* Hide default cursor */
+            cursor: none; 
         }
         
-        /* Premium Custom Scrollbar Styling */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #231942; }
         ::-webkit-scrollbar-thumb { background: #E0B1CB; border-radius: 4px; }
         
-        /* Cursor Dot Effect */
-        #cursor-dot {
-            width: 8px;
-            height: 8px;
-            background-color: #E0B1CB;
+        /* Premium Custom Cursor - The Dot and the Circle */
+        #cursor-dot, #cursor-circle {
             position: fixed;
             border-radius: 50%;
             pointer-events: none;
             z-index: 9999;
-            opacity: 0.8;
-            mix-blend-mode: screen; /* Premium blend mode */
+            transition: transform 0.3s ease-out, background-color 0.3s ease-out;
+            mix-blend-mode: screen; 
+        }
+        #cursor-dot {
+            width: 6px;
+            height: 6px;
+            background-color: #E0B1CB;
+            opacity: 1;
+        }
+        #cursor-circle {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #E0B1CB;
+            background-color: transparent;
+            opacity: 0.5;
         }
         
-        /* Miss Call/Action Pulse Effect */
+        /* Hover state for cursor */
+        .cursor-hover #cursor-circle {
+            transform: scale(2.5);
+            background-color: #E0B1CB;
+            opacity: 0.3;
+        }
+        
         .miss-call-effect {
+            /* ... (Existing pulse effect CSS here) ... */
             position: relative;
             z-index: 10;
             overflow: hidden;
@@ -84,35 +102,39 @@
             0% { transform: translate(-50%, -50%) scale(0.1); opacity: 1; }
             100% { transform: translate(-50%, -50%) scale(2); opacity: 0; }
         }
+        
+        /* Hide text before split text animation */
+        .split-text-target { visibility: hidden; }
     </style>
 </head>
-<body class="overflow-x-hidden">
+<body>
 
     <div id="cursor-dot"></div>
+    <div id="cursor-circle"></div>
 
     <header id="header" class="fixed top-0 left-0 right-0 z-50 bg-primary-dark/90 backdrop-blur-sm p-4 shadow-xl border-b border-accent-pink/20">
         <div class="container mx-auto flex justify-between items-center max-w-7xl">
-            <a href="#hero" class="text-3xl font-extrabold text-accent-pink tracking-wider hover:text-white transition duration-300">SAYAN.</a>
+            <a href="#hero" class="text-3xl font-extrabold text-accent-pink tracking-wider hover:text-white transition duration-300 interactive-element">SAYAN.</a>
             <nav id="nav-links" class="hidden md:flex space-x-10 text-lg font-medium">
-                <a href="#about" class="text-text-light/80 hover:text-accent-pink transition duration-300">About</a>
-                <a href="#skills" class="text-text-light/80 hover:text-accent-pink transition duration-300">Skills</a>
-                <a href="#projects" class="text-text-light/80 hover:text-accent-pink transition duration-300">Projects</a>
-                <a href="#contact" class="text-text-light/80 hover:text-accent-pink transition duration-300">Contact</a>
+                <a href="#about" class="text-text-light/80 hover:text-accent-pink transition duration-300 interactive-element">About</a>
+                <a href="#skills" class="text-text-light/80 hover:text-accent-pink transition duration-300 interactive-element">Skills</a>
+                <a href="#projects" class="text-text-light/80 hover:text-accent-pink transition duration-300 interactive-element">Projects</a>
+                <a href="#contact" class="text-text-light/80 hover:text-accent-pink transition duration-300 interactive-element">Contact</a>
             </nav>
-            <div id="mobile-menu-btn" class="md:hidden text-2xl cursor-pointer text-accent-pink">
+            <div id="mobile-menu-btn" class="md:hidden text-2xl cursor-pointer text-accent-pink interactive-element">
                 <i class="fas fa-bars"></i>
             </div>
         </div>
     </header>
 
     <div id="mobile-menu" class="fixed inset-0 bg-primary-dark z-[60] flex flex-col items-center justify-center space-y-8 hidden opacity-0 translate-x-full">
-        <div id="close-menu-btn" class="absolute top-6 right-6 text-3xl cursor-pointer text-accent-pink">
+        <div id="close-menu-btn" class="absolute top-6 right-6 text-3xl cursor-pointer text-accent-pink interactive-element">
             <i class="fas fa-times"></i>
         </div>
-        <a href="#about" class="text-4xl font-bold text-text-light hover:text-accent-pink transition duration-300">About</a>
-        <a href="#skills" class="text-4xl font-bold text-text-light hover:text-accent-pink transition duration-300">Skills</a>
-        <a href="#projects" class="text-4xl font-bold text-text-light hover:text-accent-pink transition duration-300">Projects</a>
-        <a href="#contact" class="text-4xl font-bold text-text-light hover:text-accent-pink transition duration-300">Contact</a>
+        <a href="#about" class="text-4xl font-bold text-text-light hover:text-accent-pink transition duration-300 interactive-element">About</a>
+        <a href="#skills" class="text-4xl font-bold text-text-light hover:text-accent-pink transition duration-300 interactive-element">Skills</a>
+        <a href="#projects" class="text-4xl font-bold text-text-light hover:text-accent-pink transition duration-300 interactive-element">Projects</a>
+        <a href="#contact" class="text-4xl font-bold text-text-light hover:text-accent-pink transition duration-300 interactive-element">Contact</a>
     </div>
 
     <main class="max-w-7xl mx-auto px-4 md:px-8">
@@ -120,26 +142,26 @@
         <section id="hero" class="h-screen flex items-center pt-24 pb-12 overflow-hidden">
             <div class="grid md:grid-cols-2 gap-16 items-center w-full">
                 <div class="hero-left">
-                    <p class="text-xl text-accent-pink mb-3 font-semibold" data-gsap="intro-text">Hello, I'm</p>
-                    <h1 class="text-7xl md:text-[5.5rem] font-black leading-tight text-text-light tracking-tight" data-gsap="intro-text">Sayan Mete</h1>
-                    <h2 class="text-3xl md:text-5xl font-light text-text-light mt-4 mb-8" data-gsap="intro-text">Crafting Premium Digital Experiences</h2>
-                    <p class="text-xl text-text-light/70 mb-12 max-w-lg" data-gsap="intro-text">
+                    <p class="text-xl text-accent-pink mb-3 font-semibold" data-gsap="intro-fade">Hello, I'm</p>
+                    <h1 class="text-7xl md:text-[5.5rem] font-black leading-tight text-text-light tracking-tight split-text-target" id="hero-name">Sayan Mete</h1>
+                    <h2 class="text-3xl md:text-5xl font-light text-text-light mt-4 mb-8 split-text-target" id="hero-title">Crafting Premium Digital Experiences</h2>
+                    <p class="text-xl text-text-light/70 mb-12 max-w-lg" data-gsap="intro-fade">
                         A passionate Full Stack Developer from Kolkata, specialized in transforming complex backend logic into elegant, high-performing user interfaces.
                     </p>
-                    <a href="#contact" class="inline-block px-12 py-5 bg-accent-pink text-primary-dark font-black text-lg rounded-full shadow-2xl miss-call-effect" data-gsap="intro-text">
+                    <a href="#contact" class="inline-block px-12 py-5 bg-accent-pink text-primary-dark font-black text-lg rounded-full shadow-2xl miss-call-effect interactive-element" data-gsap="intro-fade">
                         Get In Touch <i class="fas fa-arrow-right ml-2"></i>
                     </a>
                 </div>
                 <div class="hero-right hidden md:block" data-gsap="image-animate">
                     <div class="w-full h-auto p-4 bg-card-bg rounded-[3rem] shadow-2xl border-4 border-accent-pink/50">
-                        <img src="https://via.placeholder.com/600x600/3A2D58/E0B1CB?text=High+Fidelity+Visual" alt="Sayan Mete Professional Visual" class="w-full h-auto object-cover rounded-[2.5rem] opacity-70">
+                        <img src="https://via.placeholder.com/600x600/3A2D58/E0B1CB?text=High+Fidelity+Visual" alt="Sayan Mete Professional Visual" class="w-full h-full object-cover rounded-[2.5rem] opacity-70">
                     </div>
                 </div>
             </div>
         </section>
 
         <section id="about" class="py-24 border-t border-accent-pink/20">
-            <h2 class="section-title text-6xl font-extrabold mb-16 text-center text-accent-pink/90" data-gsap="scroll-fade">About Me</h2>
+            <h2 class="section-title text-6xl font-extrabold mb-16 text-center text-accent-pink/90" data-gsap="parallax-header">About Me</h2>
 
             <div class="grid md:grid-cols-2 gap-16 items-start">
                 <div data-gsap="scroll-fade-left">
@@ -164,7 +186,7 @@
         </section>
 
         <section id="skills" class="py-24 border-t border-accent-pink/20">
-            <h2 class="section-title text-6xl font-extrabold mb-16 text-center text-accent-pink/90" data-gsap="scroll-fade">Tech Stack Mastery</h2>
+            <h2 class="section-title text-6xl font-extrabold mb-16 text-center text-accent-pink/90" data-gsap="parallax-header">Tech Stack Mastery</h2>
             
             <div id="detailed-skills-container" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
                 </div>
@@ -172,7 +194,7 @@
 
 
         <section id="projects" class="py-24 border-t border-accent-pink/20">
-            <h2 class="section-title text-6xl font-extrabold mb-16 text-center text-accent-pink/90" data-gsap="scroll-fade">Featured Creations</h2>
+            <h2 class="section-title text-6xl font-extrabold mb-16 text-center text-accent-pink/90" data-gsap="parallax-header">Featured Creations</h2>
             
             <div id="projects-container" class="space-y-32">
                 </div>
@@ -186,21 +208,21 @@
                     I am currently open to exciting full-stack opportunities. Drop me a line to discuss your vision and how I can help bring it to life.
                 </p>
                 
-                <a href="mailto:sayanbusiness027@gmail.com" class="inline-block px-14 py-6 bg-accent-pink text-primary-dark font-black text-xl rounded-full shadow-2xl miss-call-effect hover:bg-white transition duration-500">
+                <a href="mailto:sayanbusiness027@gmail.com" class="inline-block px-14 py-6 bg-accent-pink text-primary-dark font-black text-xl rounded-full shadow-2xl miss-call-effect interactive-element hover:bg-white transition duration-500">
                     <i class="fas fa-paper-plane mr-3"></i> sayanbusiness027@gmail.com
                 </a>
 
                 <div class="mt-20 flex justify-center space-x-10 text-4xl">
-                    <a href="https://github.com/kajju027" target="_blank" class="text-text-light/80 hover:text-accent-pink transform hover:scale-125 transition duration-300" title="GitHub">
+                    <a href="https://github.com/kajju027" target="_blank" class="text-text-light/80 hover:text-accent-pink transform hover:scale-125 transition duration-300 interactive-element" title="GitHub">
                         <i class="fab fa-github"></i>
                     </a>
-                    <a href="#" target="_blank" class="text-text-light/80 hover:text-accent-pink transform hover:scale-125 transition duration-300" title="LinkedIn (Placeholder)">
+                    <a href="#" target="_blank" class="text-text-light/80 hover:text-accent-pink transform hover:scale-125 transition duration-300 interactive-element" title="LinkedIn (Placeholder)">
                         <i class="fab fa-linkedin"></i>
                     </a>
-                    <a href="#" target="_blank" class="text-text-light/80 hover:text-accent-pink transform hover:scale-125 transition duration-300" title="Twitter/X (Placeholder)">
+                    <a href="#" target="_blank" class="text-text-light/80 hover:text-accent-pink transform hover:scale-125 transition duration-300 interactive-element" title="Twitter/X (Placeholder)">
                         <i class="fab fa-twitter"></i>
                     </a>
-                    </div>
+                </div>
             </div>
         </section>
 
@@ -214,7 +236,7 @@
     </footer>
 
     <script type="module">
-        // Import data from the separate projects file
+        // --- Import Data (From separate file) ---
         import projectsData from './projects.js';
 
         // --- CONFIGURATION DATA (Skills & Tools) ---
@@ -229,10 +251,10 @@
             { name: "Firebase", percentage: 65, level: "Intermediate", icon: "fas fa-fire", color: "text-orange-600" },
         ];
 
-        gsap.registerPlugin(ScrollTrigger);
-
+        gsap.registerPlugin(ScrollTrigger, SplitText);
 
         // --- DYNAMIC CONTENT GENERATION ---
+        // (Same logic as before, using skillsData and projectsData to inject HTML)
 
         // Function to create HTML for a skill card
         const generateSkillCard = (skill, isDetailed = true) => `
@@ -245,21 +267,16 @@
                 <div class="w-full bg-primary-dark/80 rounded-full h-2 overflow-hidden">
                     <div class="skill-bar bg-accent-pink h-2 rounded-full" data-target="${skill.percentage}" style="width: 0%"></div>
                 </div>
-                ${isDetailed ? `<div class="text-right text-xs mt-1 font-bold text-accent-pink" data-percentage-text="${skill.percentage}">0%</div>` : ''}
+                ${isDetailed ? `<div class="text-right text-xs mt-1 font-bold text-accent-pink skill-percentage-text" data-percentage-text="${skill.percentage}">0%</div>` : ''}
             </div>
         `;
 
-        // 1. Skills Summary (About Section)
-        const skillsSummaryContainer = document.getElementById('skills-summary-container');
-        skillsSummaryContainer.innerHTML = skillsData.slice(0, 4).map(skill => generateSkillCard(skill, false)).join('');
-
-        // 2. Detailed Skills Section
-        const detailedSkillsContainer = document.getElementById('detailed-skills-container');
-        detailedSkillsContainer.innerHTML = skillsData.map(skill => generateSkillCard(skill, true)).join('');
+        // Load Skills (Summary and Detailed)
+        document.getElementById('skills-summary-container').innerHTML = skillsData.slice(0, 4).map(skill => generateSkillCard(skill, false)).join('');
+        document.getElementById('detailed-skills-container').innerHTML = skillsData.map(skill => generateSkillCard(skill, true)).join('');
 
 
-        // 3. Projects Section
-        const projectsContainer = document.getElementById('projects-container');
+        // Function to generate project card HTML
         const generateProjectCard = (project, index) => {
             const isEven = index % 2 === 0;
             const layoutClass = isEven ? 'md:flex-row' : 'md:flex-row-reverse';
@@ -275,10 +292,10 @@
                         <p class="text-xl text-text-light/80">${project.description}</p>
                         <div class="flex flex-wrap gap-3 pt-2">${tagHtml}</div>
                         <div class="flex space-x-6 pt-6">
-                            <a href="${project.liveLink}" target="_blank" class="px-8 py-4 bg-accent-pink text-primary-dark font-black text-lg rounded-full hover:bg-white transition duration-300 flex items-center shadow-lg miss-call-effect">
+                            <a href="${project.liveLink}" target="_blank" class="px-8 py-4 bg-accent-pink text-primary-dark font-black text-lg rounded-full hover:bg-white transition duration-300 flex items-center shadow-lg miss-call-effect interactive-element">
                                 <i class="fas fa-desktop mr-2"></i> View Live
                             </a>
-                            <a href="${project.githubLink}" target="_blank" class="px-8 py-4 border border-text-light/30 text-text-light font-black text-lg rounded-full hover:bg-primary-dark hover:border-accent-pink transition duration-300 flex items-center">
+                            <a href="${project.githubLink}" target="_blank" class="px-8 py-4 border border-text-light/30 text-text-light font-black text-lg rounded-full hover:bg-primary-dark hover:border-accent-pink transition duration-300 flex items-center interactive-element">
                                 <i class="fab fa-github mr-2"></i> Code
                             </a>
                         </div>
@@ -286,61 +303,101 @@
                 </div>
             `;
         };
-        projectsContainer.innerHTML = projectsData.map(generateProjectCard).join('');
+        document.getElementById('projects-container').innerHTML = projectsData.map(generateProjectCard).join('');
 
 
         // --- PREMIUM GSAP ANIMATIONS & EFFECTS ---
 
-        // 1. Custom Cursor Trail
+        // 1. Custom Cursor Interaction
         const cursorDot = document.getElementById('cursor-dot');
+        const cursorCircle = document.getElementById('cursor-circle');
+        const interactiveElements = document.querySelectorAll('.interactive-element, a, button');
+
         window.addEventListener('mousemove', (e) => {
             gsap.to(cursorDot, {
                 x: e.clientX,
                 y: e.clientY,
-                duration: 0.2, // Fast follow
+                duration: 0.1, // Faster dot follow
                 ease: "power2.out"
+            });
+            gsap.to(cursorCircle, {
+                x: e.clientX - 15, // Center the circle
+                y: e.clientY - 15,
+                duration: 0.4, // Slower circle follow
+                ease: "power3.out"
             });
         });
 
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+        });
 
-        // 2. Initial Page Load Animation (Header & Hero)
-        gsap.from('#header', { duration: 0.8, y: -100, opacity: 0, ease: "power2.out" });
 
-        gsap.from('[data-gsap="intro-text"]', {
-            duration: 1.2,
+           // 2. Initial Page Load Animation (Split Text & Hero Entry)
+        
+        // Split text targets
+        const heroNameSplit = new SplitText("#hero-name", { type: "words, chars" });
+        const heroTitleSplit = new SplitText("#hero-title", { type: "words" });
+
+        const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+        tl.from('#header', { duration: 0.8, y: -100, opacity: 0 }, 0.2)
+          .from(heroNameSplit.chars, {
+            duration: 0.8,
             y: 30,
             opacity: 0,
+            stagger: 0.05,
+            ease: "back.out(1.7)"
+          }, 0.5) // Start 0.5s into timeline
+          .from(heroTitleSplit.words, {
+            duration: 0.6,
+            y: 20,
+            opacity: 0,
+            stagger: 0.1,
+            ease: "power2.out"
+          }, 0.8) // Start after name
+          .from('[data-gsap="intro-fade"]', {
+            duration: 0.8,
+            y: 20,
+            opacity: 0,
             stagger: 0.15,
-            ease: "back.out(1.2)",
-            delay: 0.5
-        });
-        
-        gsap.from('[data-gsap="image-animate"]', {
+          }, 1.2) // Other hero elements fade in
+          .from('[data-gsap="image-animate"]', {
             duration: 1.8,
             scale: 0.8,
             opacity: 0,
             rotation: 5,
             ease: "expo.out",
-            delay: 1.0
+          }, 1.0);
+
+
+        // 3. Section Header Parallax
+        document.querySelectorAll('[data-gsap="parallax-header"]').forEach(el => {
+            gsap.to(el, {
+                y: -50, // Move 50px up against scroll direction
+                opacity: 0.7,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: el,
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: true, // Smooth scrubbing
+                }
+            });
         });
 
-
-        // 3. General Scroll Fade Animation
+        // 4. General Scroll Fade and Project Cards (Existing logic, updated ease)
         document.querySelectorAll('[data-gsap="scroll-fade"]').forEach(el => {
             gsap.from(el, {
                 opacity: 0,
                 y: 50,
                 duration: 1.2,
                 ease: "power3.out",
-                scrollTrigger: {
-                    trigger: el,
-                    start: "top 85%",
-                    toggleActions: "play none none reverse",
-                }
+                scrollTrigger: { trigger: el, start: "top 85%", toggleActions: "play none none reverse", }
             });
         });
 
-        // 4. Scroll Fade Left/Right (About Section)
         document.querySelectorAll('[data-gsap^="scroll-fade-"]').forEach(el => {
             const isLeft = el.getAttribute('data-gsap').endsWith('left');
             gsap.from(el, {
@@ -348,15 +405,10 @@
                 x: isLeft ? -100 : 100,
                 duration: 1.5,
                 ease: "expo.out",
-                scrollTrigger: {
-                    trigger: el,
-                    start: "top 80%",
-                    toggleActions: "play none none reverse",
-                }
+                scrollTrigger: { trigger: el, start: "top 80%", toggleActions: "play none none reverse", }
             });
         });
 
-        // 5. Project Card Animation
         document.querySelectorAll('.project-card').forEach(card => {
             gsap.from(card, {
                 opacity: 0,
@@ -364,44 +416,40 @@
                 scale: 0.9,
                 duration: 1.5,
                 ease: "expo.out",
-                scrollTrigger: {
-                    trigger: card,
-                    start: "top 75%",
-                    toggleActions: "play none none reverse",
-                }
+                scrollTrigger: { trigger: card, start: "top 75%", toggleActions: "play none none reverse", }
             });
         });
 
-        // 6. Smooth Skill Bar Animation (The Counter Effect)
+        // 5. Smooth Skill Bar Animation (The Counter Effect)
         document.querySelectorAll('.skill-bar').forEach(bar => {
             const targetPercentage = parseInt(bar.getAttribute('data-target'));
-            const textElement = bar.parentElement.nextElementSibling; // Percentage text div
+            const textElement = bar.parentElement.nextElementSibling;
 
-            gsap.to(bar, {
-                width: `${targetPercentage}%`,
-                duration: 2.0,
-                ease: "power3.inOut",
+            let skillTimeline = gsap.timeline({
                 scrollTrigger: {
-                    trigger: bar,
-                    start: "top 90%",
+                    trigger: bar.closest('.skill-card'),
+                    start: "top 85%",
                     toggleActions: "play none none reverse",
-                },
-                onUpdate: function() {
-                    if (textElement) {
-                        // Calculate current percentage for the counter effect
-                        const currentWidth = parseFloat(bar.style.width);
-                        const currentPercent = Math.round(currentWidth * targetPercentage / 100);
-                        textElement.textContent = `${currentPercent}%`;
-                    }
                 }
             });
+            
+            skillTimeline.to(bar, { width: `${targetPercentage}%`, duration: 2.0, ease: "power3.inOut" });
+            
+            let currentPercentage = { value: 0 };
+            skillTimeline.to(currentPercentage, {
+                value: targetPercentage,
+                duration: 2.0,
+                ease: "power3.inOut",
+                onUpdate: () => {
+                    if (textElement) {
+                        textElement.textContent = `${Math.round(currentPercentage.value)}%`;
+                    }
+                }
+            }, 0); 
         });
 
-        // 7. Mobile Menu Toggle Logic
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const closeMenuBtn = document.getElementById('close-menu-btn');
+        // 6. Mobile Menu Toggle Logic
         const mobileMenu = document.getElementById('mobile-menu');
-
         const toggleMobileMenu = (isOpen) => {
             if (isOpen) {
                 mobileMenu.classList.remove('hidden');
@@ -411,9 +459,8 @@
             }
         }
 
-        mobileMenuBtn.addEventListener('click', () => toggleMobileMenu(true));
-        closeMenuBtn.addEventListener('click', () => toggleMobileMenu(false));
-
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => toggleMobileMenu(true));
+        document.getElementById('close-menu-btn').addEventListener('click', () => toggleMobileMenu(false));
         mobileMenu.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => toggleMobileMenu(false));
         });
